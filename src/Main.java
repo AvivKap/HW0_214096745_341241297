@@ -173,7 +173,7 @@ public class Main {
         while (i< quantitySum){
             System.out.println("Your current game board:");
             //needs implemenation   printGameBoard();
-            System.out.println("Enter location and orientation for battleship of size " + userBattleshipStat[i]);
+            System.out.println("Enter location and orientation for battleship of size " + userBattleshipState[i]);
             while (true){
                 placement = scanner.nextLine();
                 placementSplit = placement.split(",");
@@ -188,10 +188,10 @@ public class Main {
                     continue;
                 }
                 if (orientation == 0){
-                    if(!isSubInBoardHor(y,col,userBattleshipsState[i])){
-                        System.out.println("Battleship exceeds the boundaris of the board, try again!");
+                    if(!isSubInBoardHor(y,col,userBattleshipState[i])){
+                        System.out.println("Battleship exceeds the boundaries of the board, try again!");
                         continue;
-                    } else if (!isSubOverlapHor(x, y, userBattleshiState[i], userBoard)) {
+                    } else if (!isSubOverlapHor(x, y, userBattleshipState[i], userBoard)) {
                         System.out.println("Battleship overlaps another battleship, try again!");
                         continue;
 
@@ -201,10 +201,10 @@ public class Main {
                     }
                 }
                 else {
-                    if(!isSubInBoardVer(x,row,userBattleshipsState[i])){
-                        System.out.println("Battleship exceeds the boundaris of the board, try again!");
+                    if(!isSubInBoardVer(x,row,userBattleshipState[i])){
+                        System.out.println("Battleship exceeds the boundaries of the board, try again!");
                         continue;
-                    } else if (!isSubOverlapVer(x, y, userBattleshiState[i], userBoard)) {
+                    } else if (!isSubOverlapVer(x, y, userBattleshipState[i], userBoard)) {
                         System.out.println("Battleship overlaps another battleship, try again!");
                         continue;
 
@@ -213,13 +213,14 @@ public class Main {
                         continue;
                     }
                 }
+                break;
             }
             if(orientation == 0){
-                putSubHor(x,y,userBattleshipState[i],userBoard);
+                putSubHor(x,y,userBattleshipState[i],i,userBoard);
                 putXHor(x , y ,userBattleshipState[i], row, col, userBoard);
             }
             else{
-                putSubVer(x,y,userBattleshipState[i],userBoard);
+                putSubVer(x,y,userBattleshipState[i],i,userBoard);
                 putXVer(x , y ,userBattleshipState[i], row, col, userBoard);
             }
             i++;

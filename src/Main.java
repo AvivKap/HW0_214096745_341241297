@@ -7,6 +7,89 @@ public class Main {
     public static Scanner scanner;
     public static Random rnd;
 
+    public static boolean isOrienLegal(int orientation){
+        if (orientation != 0 || orientation != 1) return false;
+        return true;
+    }
+
+    public static boolean isTileInBoard(int row, int col, int x, int y){
+        if(x>=row || x<0) return false;
+        if(y>=col || y<0) return false;
+        return true;
+    }
+
+    public static boolean isSubOverlapHor(int x,int y, int size, char array[][]){
+        for(int i = 0 ; i < size ; i++){
+            if(array[x][y+i]!= 'X' || array[x][y+i] != '—' ) return false;
+        }
+        return true;
+    }
+
+    public static boolean isSubOverlapVer(int x, int y, int size, char array[][]){
+        for(int i = 0 ; 0 < size ; i++){
+            if(array[x+i][y] != 'X' || array[x+i][y] != '—') return false;
+        }
+        return true;
+    }
+
+    public static boolean isSubAdjHor (int x , int y, int size, char array[][]){
+        for(int i = 0 ; i < size ; i++){
+            if(array[x][y+i] == 'X') return false;
+        }
+        return true;
+    }
+
+    public static boolean isSubAdjVer (int x, int y, int size, char array[][]){
+        for(int i = 0 ; i < size ; i++){
+            if(array[x+i][y] == '—') return false;
+        }
+        return true;
+    }
+
+    public static boolean isSubInBoardHor(int y,int col,int size){
+        if (y+size-1>=col) return false;
+        return true;
+    }
+
+    public static boolean isSubInBoardVer(int x, int row, int size){
+        if(x+size-1 >= row) return false;
+        return true;
+    }
+
+    public static void putSubHor(int x, int y, int size,int sub, char array[][]){
+        for (int  i = 0 ; i < size ; i++){
+            array[x][y+i] = (char)sub;
+        }
+    }
+
+    public static void putSubVer(int x, int y, int size,int sub, char array[][]){
+        for (int  i = 0 ; i < size ; i++){
+            array[x+i][y] = (char)sub;
+        }
+    }
+
+    public static void putXHor(int x, int y, int size,int row , int col, char array[][]){
+        for(int i = -1; i <= size ; i++){
+            for(int j = -1 ; j <= 1 ; j++ ){
+                if( (j+x >= 0) && (j+x <row) && (i+y >= 0) && (i+y <col)){
+                    if(array[j+x][i+y] == '—') array[j+x][i+y] = 'X';
+                }
+            }
+        }
+    }
+
+    public static void putXVer(int x, int y, int size,int row , int col, char array[][]){
+        for(int i = -1; i <= size ; i++){
+            for(int j = -1 ; j <= 1 ; j++ ){
+                if( (i+x >= 0) && (i+x <row) && (j+y >= 0) && (j+y <col)){
+                    if(array[i+x][j+y] == '—') array[i+x][j+y] = 'X';
+                }
+            }
+        }
+    }
+
+
+
     public static void dash2DArray(int row, int col, char array[][]){
         for (int i = 0; i < row; i++){
             for (int j = 0; j < col; j++){
@@ -27,7 +110,6 @@ public class Main {
         // so to get it's value in the integer data type we'll use the function parseInt
         int row = Integer.parseInt(sizeOfBoardSplit[0]);
         int col = Integer.parseInt(sizeOfBoardSplit[1]);
-
         // make 2 boards - initialized to '—' - one for user and one for pc
         char[][] userBoard = new char[row][col];
         char[][] pcBoard = new char[row][col];
@@ -43,6 +125,67 @@ public class Main {
 
         // "design" of each board - user and pc
           // getting the coordinations for each battleship
+        int x, y, orientation,  i = 0;
+        String placement;
+        String placementSplit[];
+        while (i< quantitySum){
+            System.out.println("Your current game board:");
+            //needs implemenation   printGameBoard();
+            System.out.println("Enter location and orientation for battleship of size " + userBattleshipStat[i]);
+            while (true){
+                placement = scanner.nextLine();
+                placementSplit = placement.split(",");
+                x = Integer.parseInt(placementSplit[0]);
+                y = Integer.parseInt(placementSplit[1]);
+                orientation = Integer.parseInt(placementSplit[2]);
+                if(!isOrienLegal(orientation)){
+                    System.out.println("Illegal orientation, try again!");
+                    continue;
+                } else if (!isTileInBoard(row,col,x,y)) {
+                    System.out.println("Illegal tile, try again!");
+                    continue;
+                }
+                if (orientation == 0){
+                    if(!isSubInBoardHor(y,col,userBattleshipsState[i])){
+                        System.out.println("Battleship exceeds the boundaris of the board, try again!");
+                        continue;
+                    } else if (!isSubOverlapHor(x, y, userBattleshiState[i], userBoard)) {
+                        System.out.println("Battleship overlaps another battleship, try again!");
+                        continue;
+
+                    } else if (!isSubAdjHor(x, y , userBattleshipState[i], userBoard)) {
+                        System.out.println("Adjacent battleship detected, try again!");
+                        continue;
+                    }
+                }
+                else {
+                    if(!isSubInBoardVer(x,row,userBattleshipsState[i])){
+                        System.out.println("Battleship exceeds the boundaris of the board, try again!");
+                        continue;
+                    } else if (!isSubOverlapVer(x, y, userBattleshiState[i], userBoard)) {
+                        System.out.println("Battleship overlaps another battleship, try again!");
+                        continue;
+
+                    } else if (!isSubAdjVer(x, y , userBattleshipState[i], userBoard)) {
+                        System.out.println("Adjacent battleship detected, try again!");
+                        continue;
+                    }
+                }
+            }
+            if(orientation == 0){
+                putSubHor(x,y,userBattleshipState[i],userBoard);
+                putXHor(x , y ,userBattleshipState[i], row, col, userBoard);
+            }
+            else{
+                putSubVer(x,y,userBattleshipState[i],userBoard);
+                putXVer(x , y ,userBattleshipState[i], row, col, userBoard);
+            }
+            i++;
+
+        }
+
+
+
             // creating 5 functions that will check if the coordination is legal
               // all boards are initialized to '-' and the design happens from the smallest to the biggest battleship
               // on each tile where there is a battleship, the index of said battleship will be written in the tile

@@ -7,9 +7,19 @@ public class Main {
     public static Scanner scanner;
     public static Random rnd;
 
+
     public static void battleshipGame() {
 
         // get board size
+        System.out.println("Enter the board size");
+        int row=0, col=0;
+        String sizeOfBoard = scanner.nextLine();
+        String sizeOfBoardSplit[]= sizeOfBoard.split("X");
+
+
+
+
+
           // make 2 boards - initialized to '-'
 
         // get battleship sizes + numbers of each battleship

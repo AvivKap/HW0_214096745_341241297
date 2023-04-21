@@ -98,6 +98,19 @@ public class Main {
         }
     }
 
+    public static void initializeBattleshipState(int init[], int data[][]){
+        int index = 0;
+        for ( int i = 0; i < data.length; i++){
+            for ( int j = 0; j < data[i][0]; j++){
+
+                init[index] = data[i][1];
+                index += 1;
+
+            }
+        }
+    }
+
+
     public static void battleshipGame() {
 
         // get board size
@@ -119,9 +132,38 @@ public class Main {
 
 
         // get battleship sizes + numbers of each battleship
+        System.out.println("Enter the battleships sizes");
+        String battleshipsData = scanner.nextLine();
+        // we'll create an array in which each of the objects in it will represent the quantity of a certain
+        // size of battleship, as described on the information about the game
+        String battleshipsDataSplit[] = battleshipsData.split(" ");
+
+        int[][] eachBattleshipData = new int[battleshipsDataSplit.length][2];
+
+        for (int i = 0; i < battleshipsDataSplit.length; i++){
+
+            String eachOne[] = battleshipsDataSplit[i].split(" ");
+
+            int quantity = Integer.parseInt(eachOne[0]);
+            int size = Integer.parseInt(eachOne[1]);
+
+            eachBattleshipData[i][0] = quantity;
+            eachBattleshipData[i][1] = size;
+        }
+
+        int quantitySum = 0;
+        for (int i = 0; i < eachBattleshipData.length; i++){
+             quantitySum += eachBattleshipData[i][0];
+        }
+
+        int[] userBattleshipState = new int[quantitySum];
+        int[] pcBattleshipState = new int[quantitySum];
+
+        initializeBattleshipState(userBattleshipState, eachBattleshipData);
+        initializeBattleshipState(pcBattleshipState, eachBattleshipData);
           // create 2 arrays, for each one of the players
             // each array will represent the user's battleships state
-              // from the smaller to the biggest battleship - each character is a battleship
+            // from the smaller to the biggest battleship - each character is a battleship
 
         // "design" of each board - user and pc
           // getting the coordinations for each battleship

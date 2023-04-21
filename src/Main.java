@@ -7,6 +7,13 @@ public class Main {
     public static Scanner scanner;
     public static Random rnd;
 
+    public static void dash2DArray(int row, int col, int array[][]){
+        for (int i=0; i<row;i++){
+            for (int j =0; j<col; j++){
+                array[i][j] = '-';
+            }
+        }
+    }
 
     public static void battleshipGame() {
 

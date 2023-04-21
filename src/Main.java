@@ -110,6 +110,49 @@ public class Main {
         }
     }
 
+    public static void setBoardPC(int row, int col, int pcBattleshipState[], char pcBoard[][],int quantitySum){
+        int i = 0, x, y ,orientation;
+        while (i< quantitySum){
+
+            while (true){
+                x = rnd.nextInt(row);
+                y =rnd.nextInt(col);
+                orientation = rnd.nextInt(2);
+
+                if (orientation == 0){
+                    if(!isSubInBoardHor(y,col,pcBattleshipState[i])){
+                        continue;
+                    } else if (!isSubOverlapHor(x, y, pcBattleshipState[i], pcBoard)) {
+                        continue;
+                    } else if (!isSubAdjHor(x, y , pcBattleshipState[i], pcBoard)) {
+                        continue;
+                    }
+                }
+                else {
+                    if(!isSubInBoardVer(x,row,pcBattleshipState[i])){
+                        continue;
+                    } else if (!isSubOverlapVer(x, y, pcBattleshipState[i], pcBoard)) {
+                        continue;
+                    } else if (!isSubAdjVer(x, y , pcBattleshipState[i], pcBoard)) {
+                        continue;
+                    }
+                }
+                break;
+            }
+            if(orientation == 0){
+                putSubHor(x,y,pcBattleshipState[i],i,pcBoard);
+                putXHor(x , y ,pcBattleshipState[i], row, col, pcBoard);
+            }
+            else{
+                putSubVer(x,y,pcBattleshipState[i],i,pcBoard);
+                putXVer(x , y ,pcBattleshipState[i], row, col, pcBoard);
+            }
+            i++;
+
+        }
+
+    }
+
 
     public static void battleshipGame() {
 
@@ -226,6 +269,8 @@ public class Main {
             i++;
 
         }
+
+        setBoardPC(row,col,pcBattleshipState,pcBoard,quantitySum);
 
 
 

@@ -88,8 +88,6 @@ public class Main {
         }
     }
 
-
-
     public static void dash2DArray(int row, int col, char array[][]){
         for (int i = 0; i < row; i++){
             for (int j = 0; j < col; j++){
@@ -153,6 +151,16 @@ public class Main {
 
     }
 
+    public static void fromXtodash(char[][] board){
+
+        for ( int i = 0; i < board.length; i++){
+            for ( int j = 0; j < board[0].length; j++){
+
+                if ( board[i][j] == 'X' ) { board[i][j] = '—';}
+
+            }
+        }
+    }
 
     public static void battleshipGame() {
 
@@ -163,7 +171,7 @@ public class Main {
         // this way we'll get how many rows and columns our boards will have
         String sizeOfBoardSplit[]= sizeOfBoard.split("X");
         // in the array sizeOfBoardSplit, the number of rows and column will be defined as a string
-        // so to get it's value in the integer data type we'll use the function parseInt
+        // so to get its value in the integer data type we'll use the function parseInt
         int row = Integer.parseInt(sizeOfBoardSplit[0]);
         int col = Integer.parseInt(sizeOfBoardSplit[1]);
         // make 2 boards - initialized to '—' - one for user and one for pc
@@ -208,79 +216,88 @@ public class Main {
             // each array will represent the user's battleships state
             // from the smaller to the biggest battleship - each character is a battleship
 
-        // "design" of each board - user and pc
+
+        // "DESIGN" of each board - user and pc
           // getting the coordinations for each battleship
         int x, y, orientation,  i = 0;
         String placement;
         String placementSplit[];
-        while (i< quantitySum){
+        while (i < quantitySum){
             System.out.println("Your current game board:");
-            //needs implemenation   printGameBoard();
+
+            //needs implementation printGameBoard(); -> after each legal battleship placed and before the first placement
+
             System.out.println("Enter location and orientation for battleship of size " + userBattleshipState[i]);
+            // we'll check if the coordinations are legal, if not, the user will have to give new different ones
+            // a message to get input won't appear this time
             while (true){
                 placement = scanner.nextLine();
                 placementSplit = placement.split(",");
                 x = Integer.parseInt(placementSplit[0]);
                 y = Integer.parseInt(placementSplit[1]);
                 orientation = Integer.parseInt(placementSplit[2]);
+
+                // creating 5 functions that will check if the coordination is legal
+
                 if(!isOrienLegal(orientation)){
                     System.out.println("Illegal orientation, try again!");
                     continue;
-                } else if (!isTileInBoard(row,col,x,y)) {
+                } else if (!isTileInBoard(row, col, x, y)) {
                     System.out.println("Illegal tile, try again!");
                     continue;
                 }
                 if (orientation == 0){
-                    if(!isSubInBoardHor(y,col,userBattleshipState[i])){
+                    if(!isSubInBoardHor(y, col, userBattleshipState[i])){
                         System.out.println("Battleship exceeds the boundaries of the board, try again!");
                         continue;
                     } else if (!isSubOverlapHor(x, y, userBattleshipState[i], userBoard)) {
                         System.out.println("Battleship overlaps another battleship, try again!");
                         continue;
 
-                    } else if (!isSubAdjHor(x, y , userBattleshipState[i], userBoard)) {
+                    } else if (!isSubAdjHor(x, y, userBattleshipState[i], userBoard)) {
                         System.out.println("Adjacent battleship detected, try again!");
                         continue;
                     }
                 }
                 else {
-                    if(!isSubInBoardVer(x,row,userBattleshipState[i])){
+                    if(!isSubInBoardVer(x, row, userBattleshipState[i])){
                         System.out.println("Battleship exceeds the boundaries of the board, try again!");
                         continue;
                     } else if (!isSubOverlapVer(x, y, userBattleshipState[i], userBoard)) {
                         System.out.println("Battleship overlaps another battleship, try again!");
                         continue;
 
-                    } else if (!isSubAdjVer(x, y , userBattleshipState[i], userBoard)) {
+                    } else if (!isSubAdjVer(x, y, userBattleshipState[i], userBoard)) {
                         System.out.println("Adjacent battleship detected, try again!");
                         continue;
                     }
                 }
                 break;
             }
+            // when we get legal orientations, we'll place the submarines in the board!
+            // on the tiles around each battleship, for now, we'll put a sign "X" that will tell us it's an illegal tile
+            // on each tile where there is a battleship, the index of said battleship will be written in the tile
+            // the index according to the userBattleshipState/pcBattleshipState array created earlier
+
             if(orientation == 0){
-                putSubHor(x,y,userBattleshipState[i],i,userBoard);
-                putXHor(x , y ,userBattleshipState[i], row, col, userBoard);
+                putSubHor(x, y, userBattleshipState[i], i, userBoard);
+                putXHor(x, y, userBattleshipState[i], row, col, userBoard);
             }
             else{
-                putSubVer(x,y,userBattleshipState[i],i,userBoard);
-                putXVer(x , y ,userBattleshipState[i], row, col, userBoard);
+                putSubVer(x, y, userBattleshipState[i], i, userBoard);
+                putXVer(x ,y ,userBattleshipState[i], row, col, userBoard);
             }
             i++;
 
         }
 
+        // randomly set the computer's battleships in its board
         setBoardPC(row,col,pcBattleshipState,pcBoard,quantitySum);
 
+        // after the battleships have been set, we'll get rid of the "service "X"" we used to make sure there wouldn't be any adjacent battleships
+        fromXtodash(userBoard);
+        fromXtodash(pcBoard);
 
-
-            // creating 5 functions that will check if the coordination is legal
-              // all boards are initialized to '-' and the design happens from the smallest to the biggest battleship
-              // on each tile where there is a battleship, the index of said battleship will be written in the tile
-              // on the tiles around each battleship, for now, we'll put a sign "X" that will tell us it's an illegal tile
-                // in the user's board, before the first battleship and after each lega battleship, we'll print their current board
-
-          // after both boards are ready for the game, after all battleships have been placed, we'll change the "X"'s to "-"
 
         // GAME STARTS!
           // "M" == miss; "H" == hit

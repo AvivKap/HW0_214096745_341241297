@@ -7,10 +7,10 @@ public class Main {
     public static Scanner scanner;
     public static Random rnd;
 
-    public static void dash2DArray(int row, int col, int array[][]){
-        for (int i=0; i<row;i++){
-            for (int j =0; j<col; j++){
-                array[i][j] = '-';
+    public static void dash2DArray(int row, int col, char array[][]){
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < col; j++){
+                array[i][j] = '—';
             }
         }
     }
@@ -19,15 +19,22 @@ public class Main {
 
         // get board size
         System.out.println("Enter the board size");
-        int row=0, col=0;
         String sizeOfBoard = scanner.nextLine();
+        // after getting from user the board size, we'll divide the string by the given separator "X"
+        // this way we'll get how many rows and columns our boards will have
         String sizeOfBoardSplit[]= sizeOfBoard.split("X");
+        // in the array sizeOfBoardSplit, the number of rows and column will be defined as a string
+        // so to get it's value in the integer data type we'll use the function parseInt
+        int row = Integer.parseInt(sizeOfBoardSplit[0]);
+        int col = Integer.parseInt(sizeOfBoardSplit[1]);
 
+        // make 2 boards - initialized to '—' - one for user and one for pc
+        char[][] userBoard = new char[row][col];
+        char[][] pcBoard = new char[row][col];
 
+        dash2DArray(row, col, userBoard);
+        dash2DArray(row, col, pcBoard);
 
-
-
-          // make 2 boards - initialized to '-'
 
         // get battleship sizes + numbers of each battleship
           // create 2 arrays, for each one of the players

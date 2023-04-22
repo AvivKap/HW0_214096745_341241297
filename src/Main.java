@@ -8,38 +8,37 @@ public class Main {
     public static Random rnd;
 
     public static boolean isOrienLegal(int orientation){
-        if (orientation != 0 || orientation != 1) return false;
-        return true;
+        return (orientation == 0 || orientation == 1);
     }
 
     public static boolean isTileInBoard(int row, int col, int x, int y){
-        if(x>=row || x<0) return false;
-        if(y>=col || y<0) return false;
+        if(x >= row || x < 0) return false;
+        if(y >= col || y < 0) return false;
         return true;
     }
 
-    public static boolean isSubOverlapHor(int x,int y, int size, char array[][]){
+    public static boolean isSubOverlapHor(int x,int y, int size, char[][] array){
         for(int i = 0 ; i < size ; i++){
-            if(array[x][y+i]!= 'X' || array[x][y+i] != '—' ) return false;
+            if(array[x][y+i] != 'X' || array[x][y+i] != '—' ) return false;
         }
         return true;
     }
 
-    public static boolean isSubOverlapVer(int x, int y, int size, char array[][]){
+    public static boolean isSubOverlapVer(int x, int y, int size, char[][] array){
         for(int i = 0 ; 0 < size ; i++){
             if(array[x+i][y] != 'X' || array[x+i][y] != '—') return false;
         }
         return true;
     }
 
-    public static boolean isSubAdjHor (int x , int y, int size, char array[][]){
+    public static boolean isSubAdjHor (int x , int y, int size, char[][] array){
         for(int i = 0 ; i < size ; i++){
             if(array[x][y+i] == 'X') return false;
         }
         return true;
     }
 
-    public static boolean isSubAdjVer (int x, int y, int size, char array[][]){
+    public static boolean isSubAdjVer (int x, int y, int size, char[][] array){
         for(int i = 0 ; i < size ; i++){
             if(array[x+i][y] == '—') return false;
         }
@@ -56,19 +55,19 @@ public class Main {
         return true;
     }
 
-    public static void putSubHor(int x, int y, int size,int sub, char array[][]){
+    public static void putSubHor(int x, int y, int size,int sub, char[][] array){
         for (int  i = 0 ; i < size ; i++){
             array[x][y+i] = (char)sub;
         }
     }
 
-    public static void putSubVer(int x, int y, int size,int sub, char array[][]){
+    public static void putSubVer(int x, int y, int size,int sub, char[][] array){
         for (int  i = 0 ; i < size ; i++){
             array[x+i][y] = (char)sub;
         }
     }
 
-    public static void putXHor(int x, int y, int size,int row , int col, char array[][]){
+    public static void putXHor(int x, int y, int size,int row , int col, char[][] array){
         for(int i = -1; i <= size ; i++){
             for(int j = -1 ; j <= 1 ; j++ ){
                 if( (j+x >= 0) && (j+x <row) && (i+y >= 0) && (i+y <col)){
@@ -78,7 +77,7 @@ public class Main {
         }
     }
 
-    public static void putXVer(int x, int y, int size,int row , int col, char array[][]){
+    public static void putXVer(int x, int y, int size,int row , int col, char[][] array){
         for(int i = -1; i <= size ; i++){
             for(int j = -1 ; j <= 1 ; j++ ){
                 if( (i+x >= 0) && (i+x <row) && (j+y >= 0) && (j+y <col)){
@@ -88,7 +87,7 @@ public class Main {
         }
     }
 
-    public static void dash2DArray(int row, int col, char array[][]){
+    public static void dash2DArray(int row, int col, char[][] array){
         for (int i = 0; i < row; i++){
             for (int j = 0; j < col; j++){
                 array[i][j] = '—';
@@ -96,7 +95,7 @@ public class Main {
         }
     }
 
-    public static void initializeBattleshipState(int init[], int data[][]){
+    public static void initializeBattleshipState(int[] init, int[][] data){
         int index = 0;
         for ( int i = 0; i < data.length; i++){
             for ( int j = 0; j < data[i][0]; j++){
@@ -108,7 +107,7 @@ public class Main {
         }
     }
 
-    public static void setBoardPC(int row, int col, int pcBattleshipState[], char pcBoard[][],int quantitySum){
+    public static void setBoardPC(int row, int col, int[] pcBattleshipState, char[][] pcBoard,int quantitySum){
         int i = 0, x, y ,orientation;
         while (i< quantitySum){
 
@@ -159,6 +158,19 @@ public class Main {
                 if ( board[i][j] == 'X' ) { board[i][j] = '—';}
 
             }
+        }
+    }
+
+    public static void organizeBattleshipData(int[][] eachBattleshipData, String[] battleshipsDataSplit ){
+        for (int i = 0; i < battleshipsDataSplit.length; i++){
+
+            String[] eachOne = battleshipsDataSplit[i].split("X");
+
+            int quantity = Integer.parseInt(eachOne[0]);
+            int size = Integer.parseInt(eachOne[1]);
+
+            eachBattleshipData[i][0] = quantity;
+            eachBattleshipData[i][1] = size;
         }
     }
 
@@ -255,6 +267,8 @@ public class Main {
 
     }
 
+
+
     public static void battleshipGame() {
 
         // get board size
@@ -262,11 +276,12 @@ public class Main {
         String sizeOfBoard = scanner.nextLine();
         // after getting from user the board size, we'll divide the string by the given separator "X"
         // this way we'll get how many rows and columns our boards will have
-        String sizeOfBoardSplit[]= sizeOfBoard.split("X");
+        String[] sizeOfBoardSplit= sizeOfBoard.split("X");
         // in the array sizeOfBoardSplit, the number of rows and column will be defined as a string
         // so to get its value in the integer data type we'll use the function parseInt
         int row = Integer.parseInt(sizeOfBoardSplit[0]);
         int col = Integer.parseInt(sizeOfBoardSplit[1]);
+
         // make 2 boards - initialized to '—' - one for user and one for pc
         char[][] userBoard = new char[row][col];
         char[][] pcBoard = new char[row][col];
@@ -280,20 +295,11 @@ public class Main {
         String battleshipsData = scanner.nextLine();
         // we'll create an array in which each of the objects in it will represent the quantity of a certain
         // size of battleship, as described on the information about the game
-        String battleshipsDataSplit[] = battleshipsData.split(" ");
+        String[] battleshipsDataSplit = battleshipsData.split(" ");
 
         int[][] eachBattleshipData = new int[battleshipsDataSplit.length][2];
 
-        for (int i = 0; i < battleshipsDataSplit.length; i++){
-
-            String eachOne[] = battleshipsDataSplit[i].split(" ");
-
-            int quantity = Integer.parseInt(eachOne[0]);
-            int size = Integer.parseInt(eachOne[1]);
-
-            eachBattleshipData[i][0] = quantity;
-            eachBattleshipData[i][1] = size;
-        }
+        organizeBattleshipData(eachBattleshipData, battleshipsDataSplit);
 
         int quantitySum = 0;
         for (int i = 0; i < eachBattleshipData.length; i++){
@@ -314,7 +320,7 @@ public class Main {
           // getting the coordinations for each battleship
         int x, y, orientation,  i = 0;
         String placement;
-        String placementSplit[];
+        String[] placementSplit;
         while (i < quantitySum){
             System.out.println("Your current game board:");
 

@@ -185,31 +185,40 @@ public class Main {
         char[][] to_print = new char[(board.length) + 1][(board[0].length) + 1];
         to_print[0][0] = ' ';
         // enumerate columns
-        for(int i = 1; i < board[0].length; i++){
+        for(int i = 1; i < to_print[0].length; i++){
             to_print[0][i]  = (char)(i - 1);
         }
         // enumerate rows - how to correct the spacement when there is only one number?
-        for(int i = 1; i < board.length; i++){
+        for(int i = 1; i < to_print.length; i++){
             to_print[i][0] = (char)(i-1);
         }
 
-        // we'll firstly print the first row, that indicates the boards columns
-        for(int i = 0; i < board[0].length; i++){
-            System.out.print(board[0][i] + ' ');
+        // put the board data inside the to_print board
+        for(int i = 1; i < to_print.length; i++){
+            for(int j = 1; j < to_print[0].length; j++){
+
+                to_print[i][j] = board[i-1][j-1];
+
+            }
         }
 
-        for(int i = 1; i < board.length; i++){ // goes through each line
+        // we'll firstly print the first row, that indicates the boards columns
+        for(int i = 0; i < to_print[0].length; i++){
+            System.out.print(to_print[0][i] + ' ');
+        }
+
+        for(int i = 1; i < to_print.length; i++){ // goes through each line
 
             // print the number that indicates each one of the boards rows
-            System.out.print(board[i][0] + ' ');
+            System.out.print(to_print[i][0] + ' ');
 
-            for( int j = 1; j < board[0].length; j++){ // goes through each column
+            for( int j = 1; j < to_print[0].length; j++){ // goes through each column
 
-                if( board[i][j] == 'M'){
+                if( to_print[i][j] == 'M'){
                     System.out.print('—' + ' ');
-                } else if ( board[i][j] == 'H'){
+                } else if ( to_print[i][j] == 'H'){
                     System.out.print('X' + ' ');
-                } else if (board[i][j] == '—'){
+                } else if (to_print[i][j] == '—'){
                     System.out.print('—' +' ');
                 } else {System.out.print('#' + ' ');}
 
@@ -233,28 +242,36 @@ public class Main {
         char[][] to_print = new char[(board.length) + 1][(board[0].length) + 1];
         to_print[0][0] = ' ';
         // enumerate columns
-        for(int i = 1; i < board[0].length; i++){
+        for(int i = 1; i < to_print[0].length; i++){
             to_print[0][i]  = (char)(i - 1);
         }
         // enumerate rows - how to correct the spacement when there is only one number?
-        for(int i = 1; i < board.length; i++){
+        for(int i = 1; i < to_print.length; i++){
             to_print[i][0] = (char)(i-1);
         }
+        // put the board data inside the to_print board
+        for(int i = 1; i < to_print.length; i++){
+            for(int j = 1; j < to_print[0].length; j++){
+
+                to_print[i][j] = board[i-1][j-1];
+
+            }
+        }
         // we'll firstly print the first row, that indicates the boards columns
-        for(int i = 0; i < board[0].length; i++){
+        for(int i = 0; i < to_print[0].length; i++){
             System.out.print(board[0][i] + ' ');
         }
 
-        for(int i = 1; i < board.length; i++){ // goes through each line
+        for(int i = 1; i < to_print.length; i++){ // goes through each line
 
             // print the number that indicates each one of the boards rows
-            System.out.print(board[i][0] + ' ');
+            System.out.print(to_print[i][0] + ' ');
 
-            for( int j = 1; j < board[0].length; j++){ // goes through each column
+            for( int j = 1; j < to_print[0].length; j++){ // goes through each column
 
-                if( board[i][j] == 'M'){
+                if( to_print[i][j] == 'M'){
                     System.out.print('X' + ' ');
-                } else if ( board[i][j] == 'H'){
+                } else if ( to_print[i][j] == 'H'){
                     System.out.print('V' + ' ');
                 } else{System.out.print('—' + ' ');}
 
@@ -266,8 +283,6 @@ public class Main {
         System.out.println();
 
     }
-
-
 
     public static void battleshipGame() {
 

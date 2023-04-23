@@ -181,7 +181,6 @@ public class Main {
         // 'H' -> 'V'
         // a number, represents a battleship -> '—'
         // '—' -> '—'
-
         char[][] to_print = new char[(board.length) + 1][(board[0].length) + 1];
         to_print[0][0] = ' ';
         // enumerate columns
@@ -339,6 +338,8 @@ public class Main {
         while (i < quantitySum){
             System.out.println("Your current game board:");
 
+            printGameBoard(userBoard);
+
             //needs implementation printGameBoard(); -> after each legal battleship placed and before the first placement
 
             System.out.println("Enter location and orientation for battleship of size " + userBattleshipState[i]);
@@ -406,21 +407,22 @@ public class Main {
         }
 
         // randomly set the computer's battleships in its board
-        setBoardPC(row,col,pcBattleshipState,pcBoard,quantitySum);
+        setBoardPC(row, col, pcBattleshipState, pcBoard, quantitySum);
 
         // after the battleships have been set, we'll get rid of the "service "X"" we used to make sure there wouldn't be any adjacent battleships
         fromXtodash(userBoard);
         fromXtodash(pcBoard);
-
 
         // GAME STARTS!
           // "M" == miss; "H" == hit
 
         // user's attack
           // print guessing user's board - every cell in the pc's board that isn't "M" or "H"
+        printGuessingBoard(userBoard);
             // for "M" -> "X"
             // for "H" -> "V"
           // get tile to attack from user
+
             // check if it is illegal (not inside the board) or if it has been attacked (is marked with a "M" or "H")
             //  if it's legal, we'll print what the attack caused: miss, hit or drowning
             // chang the board accordingly

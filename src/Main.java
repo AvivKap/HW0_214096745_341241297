@@ -170,34 +170,41 @@ public class Main {
     }
 
     public static void printGameBoard(char[][] board){
-
-
         // according to the board we have defined in the game:
-        // 'M' -> 'X'
-        // 'H' -> 'V'
-        // a number, represents a battleship -> '—'
+        // 'M' -> '-'
+        // 'H' -> 'X'
+        // a number, represents a battleship -> '#'
         // '—' -> '—'
         // print the fist 'space'
-        System.out.print(' ' + ' ');
+        System.out.print("  ");
         // print the columns enumeration
-        for ( int i = 1; i < board[0].length; i++){
-            System.out.print((char) i + ' ');
+        for ( int i = 0; i < board[0].length; i++){
+            System.out.print((int)i);
+            System.out.print(" ");
         }
+        System.out.println();
 
         for(int i = 0; i < board.length; i++){ // goes through each line
 
             // print the number that indicates each one of the boards rows
-            System.out.print(i + ' ');
+            System.out.print((int)i);
+            System.out.print(" ");
 
-            for( int j = 1; j < board[0].length; j++){ // goes through each column
+            for( int j = 0; j < board[0].length; j++){ // goes through each column
 
                 if( board[i][j] == 'M'){
-                    System.out.print('—' + ' ');
+                    System.out.print("—");
+                    System.out.print(" ");
                 } else if ( board[i][j] == 'H'){
-                    System.out.print('X' + ' ');
+                    System.out.print("X");
+                    System.out.print(" ");
                 } else if ( board[i][j] == '—'){
-                    System.out.print('—' +' ');
-                } else {System.out.print('#' + ' ');}
+                    System.out.print("—");
+                    System.out.print(" ");
+                } else {
+                    System.out.print("#");
+                    System.out.print(" ");
+                }
 
             }
             // after we finish printing each line, skip down to start printing the next one
@@ -216,24 +223,33 @@ public class Main {
         // a number, represents a battleship -> '-'
         // '—' -> '—'
 
-        System.out.print(' ' + ' ');
+        System.out.print("  ");
         // print the columns enumeration
-        for ( int i = 1; i < board[0].length; i++){
-            System.out.print((char) i + ' ');
+        for ( int i = 0; i < board[0].length; i++){
+            System.out.print((int)i);
+            System.out.print(" ");
         }
+        System.out.println();
 
         for(int i = 0; i < board.length; i++){ // goes through each line
 
             // print the number that indicates each one of the boards rows
-            System.out.print(i + ' ');
+            System.out.print((int)i);
+            System.out.print(" ");
 
-            for( int j = 1; j < board[0].length; j++){ // goes through each column
+            for( int j = 0; j < board[0].length; j++){ // goes through each column
 
                 if( board[i][j] == 'M'){
-                    System.out.print('X' + ' ');
+                    System.out.print("X");
+                    System.out.print(" ");
                 } else if ( board[i][j] == 'H'){
-                    System.out.print('V' + ' ');
-                } else System.out.print('—' +' ');
+                    System.out.print("V");
+                    System.out.print(" ");
+                } else {
+                    System.out.print("—");
+                    System.out.print(" ");
+                }
+
             }
             // after we finish printing each line, skip down to start printing the next one
             System.out.println();

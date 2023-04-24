@@ -171,44 +171,31 @@ public class Main {
 
     public static void printGameBoard(char[][] board){
 
+
         // according to the board we have defined in the game:
         // 'M' -> 'X'
         // 'H' -> 'V'
         // a number, represents a battleship -> '—'
         // '—' -> '—'
-        char[][] to_print = new char[(board.length) + 1][(board[0].length) + 1];
-        to_print[0][0] = ' ';
-        // enumerate columns
-        for(int i = 1; i < to_print[0].length; i++){
-            to_print[0][i]  = (char)(i - 1);
-        }
-        // enumerate rows - how to correct the spacement when there is only one number?
-        for(int i = 1; i < to_print.length; i++){
-            to_print[i][0] = (char)(i-1);
+        // print the fist 'space'
+        System.out.print(' ' + ' ');
+        // print the columns enumeration
+        for ( int i = 1; i < board[0].length; i++){
+            System.out.print((char) i + ' ');
         }
 
-        // put the board data inside the to_print board
-        for(int i = 1; i < to_print.length; i++){
-            if (to_print[0].length - 1 >= 0) System.arraycopy(board[i - 1], 0, to_print[i], 1, to_print[0].length - 1);
-        }
-
-        // we'll firstly print the first row, that indicates the boards columns
-        for(int i = 0; i < to_print[0].length; i++){
-            System.out.print(to_print[0][i] + ' ');
-        }
-
-        for(int i = 1; i < to_print.length; i++){ // goes through each line
+        for(int i = 0; i < board.length; i++){ // goes through each line
 
             // print the number that indicates each one of the boards rows
-            System.out.print(to_print[i][0] + ' ');
+            System.out.print(i + ' ');
 
-            for( int j = 1; j < to_print[0].length; j++){ // goes through each column
+            for( int j = 1; j < board[0].length; j++){ // goes through each column
 
-                if( to_print[i][j] == 'M'){
+                if( board[i][j] == 'M'){
                     System.out.print('—' + ' ');
-                } else if ( to_print[i][j] == 'H'){
+                } else if ( board[i][j] == 'H'){
                     System.out.print('X' + ' ');
-                } else if (to_print[i][j] == '—'){
+                } else if ( board[i][j] == '—'){
                     System.out.print('—' +' ');
                 } else {System.out.print('#' + ' ');}
 
@@ -224,43 +211,29 @@ public class Main {
     public static void printGuessingBoard(char[][] board){
 
         // according to the board we have defined in the game:
-        // 'M' -> '—'
-        // 'H' -> 'X'
-        // a number, represents a battleship -> '#'
+        // 'M' -> 'X'
+        // 'H' -> 'V'
+        // a number, represents a battleship -> '-'
         // '—' -> '—'
 
-        char[][] to_print = new char[(board.length) + 1][(board[0].length) + 1];
-        to_print[0][0] = ' ';
-        // enumerate columns
-        for(int i = 1; i < to_print[0].length; i++){
-            to_print[0][i]  = (char)(i - 1);
-        }
-        // enumerate rows - how to correct the spacement when there is only one number?
-        for(int i = 1; i < to_print.length; i++){
-            to_print[i][0] = (char)(i-1);
-        }
-        // put the board data inside the to_print board
-        for(int i = 1; i < to_print.length; i++){
-            if (to_print[0].length - 1 >= 0) System.arraycopy(board[i - 1], 0, to_print[i], 1, to_print[0].length - 1);
-        }
-        // we'll firstly print the first row, that indicates the boards columns
-        for(int i = 0; i < to_print[0].length; i++){
-            System.out.print(board[0][i] + ' ');
+        System.out.print(' ' + ' ');
+        // print the columns enumeration
+        for ( int i = 1; i < board[0].length; i++){
+            System.out.print((char) i + ' ');
         }
 
-        for(int i = 1; i < to_print.length; i++){ // goes through each line
+        for(int i = 0; i < board.length; i++){ // goes through each line
 
             // print the number that indicates each one of the boards rows
-            System.out.print(to_print[i][0] + ' ');
+            System.out.print(i + ' ');
 
-            for( int j = 1; j < to_print[0].length; j++){ // goes through each column
+            for( int j = 1; j < board[0].length; j++){ // goes through each column
 
-                if( to_print[i][j] == 'M'){
+                if( board[i][j] == 'M'){
                     System.out.print('X' + ' ');
-                } else if ( to_print[i][j] == 'H'){
+                } else if ( board[i][j] == 'H'){
                     System.out.print('V' + ' ');
-                } else{System.out.print('—' + ' ');}
-
+                } else System.out.print('—' +' ');
             }
             // after we finish printing each line, skip down to start printing the next one
             System.out.println();

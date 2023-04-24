@@ -12,9 +12,7 @@ public class Main {
     }
 
     public static boolean isTileInBoard(int row, int col, int x, int y){
-        if(x >= row || x < 0) return false;
-        if(y >= col || y < 0) return false;
-        return true;
+        return ((x >= row || x < 0) || (y >= col || y < 0));
     }
 
     public static boolean isSubOverlapHor(int x,int y, int size, char[][] array){
@@ -46,13 +44,12 @@ public class Main {
     }
 
     public static boolean isSubInBoardHor(int y,int col,int size){
-        if (y+size-1>=col) return false;
-        return true;
+        return !(y+size-1 >= col);
     }
 
     public static boolean isSubInBoardVer(int x, int row, int size){
-        if(x+size-1 >= row) return false;
-        return true;
+        return !(x+size-1 >= row);
+
     }
 
     public static void putSubHor(int x, int y, int size,int sub, char[][] array){
@@ -99,10 +96,8 @@ public class Main {
         int index = 0;
         for ( int i = 0; i < data.length; i++){
             for ( int j = 0; j < data[i][0]; j++){
-
                 init[index] = data[i][1];
                 index += 1;
-
             }
         }
     }
@@ -412,6 +407,7 @@ public class Main {
         // after the battleships have been set, we'll get rid of the "service "X"" we used to make sure there wouldn't be any adjacent battleships
         fromXtodash(userBoard);
         fromXtodash(pcBoard);
+
 
         // GAME STARTS!
           // "M" == miss; "H" == hit

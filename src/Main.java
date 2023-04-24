@@ -189,11 +189,7 @@ public class Main {
 
         // put the board data inside the to_print board
         for(int i = 1; i < to_print.length; i++){
-            for(int j = 1; j < to_print[0].length; j++){
-
-                to_print[i][j] = board[i-1][j-1];
-
-            }
+            if (to_print[0].length - 1 >= 0) System.arraycopy(board[i - 1], 0, to_print[i], 1, to_print[0].length - 1);
         }
 
         // we'll firstly print the first row, that indicates the boards columns
@@ -245,11 +241,7 @@ public class Main {
         }
         // put the board data inside the to_print board
         for(int i = 1; i < to_print.length; i++){
-            for(int j = 1; j < to_print[0].length; j++){
-
-                to_print[i][j] = board[i-1][j-1];
-
-            }
+            if (to_print[0].length - 1 >= 0) System.arraycopy(board[i - 1], 0, to_print[i], 1, to_print[0].length - 1);
         }
         // we'll firstly print the first row, that indicates the boards columns
         for(int i = 0; i < to_print[0].length; i++){

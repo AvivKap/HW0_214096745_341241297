@@ -170,93 +170,124 @@ public class Main {
     }
 
     public static void printGameBoard(char[][] board){
-        // according to the board we have defined in the game:
-        // 'M' -> '-'
+        int row = board.length;
+        int col = board[0].length;
+
+        String[][] to_print = new String[row + 1][col + 1];
+        to_print[0][0] = "  ";
+
+        // enumerate columns
+        for (int i = 1; i < to_print[0].length; i++) {
+            to_print[0][i] = Integer.toString(i - 1);
+        }
+
+        // enumerate rows - gotta be careful with the spacements!
+        for (int i = 1; i < to_print.length; i++) {
+            if (row >= 100) {
+                if (i < 10) {
+                    to_print[i][0] = (" " + Integer.toString(i - 1));
+                } else if (i < 100) {
+                    to_print[i][0] = ("  " + Integer.toString(i - 1));
+                } else {
+                    to_print[i][0] = Integer.toString(i - 1);
+                }
+            } else if (row >= 10) {
+                if (i <= 10) {
+                    to_print[i][0] = (" " + Integer.toString(i - 1));
+                } else {
+                    to_print[i][0] = Integer.toString(i - 1);
+                }
+            }
+        }
+
+        // pass all the info from char to String in the new board - ready to print
+        // 'M' -> '—'
         // 'H' -> 'X'
         // a number, represents a battleship -> '#'
         // '—' -> '—'
-        // print the fist 'space'
-        System.out.print("  ");
-        // print the columns enumeration
-        for ( int i = 0; i < board[0].length; i++){
-            System.out.print((int)i);
-            System.out.print(" ");
-        }
-        System.out.println();
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
 
-        for(int i = 0; i < board.length; i++){ // goes through each line
-
-            // print the number that indicates each one of the boards rows
-            System.out.print((int)i);
-            System.out.print(" ");
-
-            for( int j = 0; j < board[0].length; j++){ // goes through each column
-
-                if( board[i][j] == 'M'){
-                    System.out.print("—");
-                    System.out.print(" ");
-                } else if ( board[i][j] == 'H'){
-                    System.out.print("X");
-                    System.out.print(" ");
-                } else if ( board[i][j] == '—'){
-                    System.out.print("—");
-                    System.out.print(" ");
-                } else {
-                    System.out.print("#");
-                    System.out.print(" ");
-                }
+                if(board[i][j] == 'M' | board[i][j] == '—'){
+                    to_print[i + 1][j + 1] = "—";
+                } else if (board[i][j] == 'H') {
+                    to_print[i + 1][j + 1] = "X";
+                } else to_print[i + 1][j + 1] = "#";
 
             }
-            // after we finish printing each line, skip down to start printing the next one
+        }
+
+        // print the printing board that is now ready!
+        for (int i = 0; i < to_print.length; i++) {
+            for (int j = 0; j < to_print[0].length; j++) {
+
+                System.out.print(to_print[i][j] + " ");
+
+            }
             System.out.println();
         }
-        // after we finish printing each board, print a clear line
         System.out.println();
-
     }
 
     public static void printGuessingBoard(char[][] board){
 
-        // according to the board we have defined in the game:
+        int row = board.length;
+        int col = board[0].length;
+
+        String[][] to_print = new String[row + 1][col + 1];
+        to_print[0][0] = "  ";
+
+        // enumerate columns
+        for (int i = 1; i < to_print[0].length; i++) {
+            to_print[0][i] = Integer.toString(i - 1);
+        }
+
+        // enumerate rows - gotta be careful with the spacements!
+        for (int i = 1; i < to_print.length; i++) {
+            if (row >= 100) {
+                if (i < 10) {
+                    to_print[i][0] = (" " + Integer.toString(i - 1));
+                } else if (i < 100) {
+                    to_print[i][0] = ("  " + Integer.toString(i - 1));
+                } else {
+                    to_print[i][0] = Integer.toString(i - 1);
+                }
+            } else if (row >= 10) {
+                if (i <= 10) {
+                    to_print[i][0] = (" " + Integer.toString(i - 1));
+                } else {
+                    to_print[i][0] = Integer.toString(i - 1);
+                }
+            }
+        }
+
+        // pass all the info from char to String in the new board - ready to print
         // 'M' -> 'X'
         // 'H' -> 'V'
-        // a number, represents a battleship -> '-'
+        // a number, represents a battleship -> '—'
         // '—' -> '—'
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
 
-        System.out.print("  ");
-        // print the columns enumeration
-        for ( int i = 0; i < board[0].length; i++){
-            System.out.print((int)i);
-            System.out.print(" ");
+                if(board[i][j] == 'M'){
+                    to_print[i + 1][j + 1] = "X";
+                } else if (board[i][j] == 'H') {
+                    to_print[i + 1][j + 1] = "V";
+                } else to_print[i + 1][j + 1] = "—";
+            }
         }
-        System.out.println();
 
-        for(int i = 0; i < board.length; i++){ // goes through each line
+        // print the printing board that is now ready!
 
-            // print the number that indicates each one of the boards rows
-            System.out.print((int)i);
-            System.out.print(" ");
+        for (int i = 0; i < to_print.length; i++) {
+            for (int j = 0; j < to_print[0].length; j++) {
 
-            for( int j = 0; j < board[0].length; j++){ // goes through each column
-
-                if( board[i][j] == 'M'){
-                    System.out.print("X");
-                    System.out.print(" ");
-                } else if ( board[i][j] == 'H'){
-                    System.out.print("V");
-                    System.out.print(" ");
-                } else {
-                    System.out.print("—");
-                    System.out.print(" ");
-                }
+                System.out.print(to_print[i][j] + " ");
 
             }
-            // after we finish printing each line, skip down to start printing the next one
             System.out.println();
         }
-        // after we finish printing each board, print a clear line
         System.out.println();
-
     }
 
     public static void battleshipGame() {

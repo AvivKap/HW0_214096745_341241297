@@ -8,17 +8,27 @@ public class Main {
     public static Random rnd;
 
     /**
-     * @param orientation
+     * Gets the battleships orientation
      * Returns if the orientation received is legal or not
      */
     public static boolean isOrienLegal(int orientation){
         return (orientation == 0 || orientation == 1);
     }
 
+    /**
+     * Gets quantity of lines and rows in board and desired tile
+     * Returns whether said tile is inside the board
+     */
     public static boolean isTileInBoard(int row, int col, int x, int y){
         return (!((x >= row || x < 0) || (y >= col || y < 0)));
     }
 
+    /**
+     * Gets the first tile we want to put the battleship on, the battleships size
+     * and board - for horizontal battleships
+     * Checks if there already is a battleship where we want to place one
+     * Returns if there is a battleship already there or not
+     */
     public static boolean isSubOverlapHor(int x,int y, int size, String[][] array){
         for(int i = 0 ; i < size ; i++){
             if(!(array[x][y+i].equals("X") || array[x][y+i].equals("—"))) return true;
@@ -26,6 +36,12 @@ public class Main {
         return false;
     }
 
+    /**
+     * Gets the first tile we want to put the battleship on, the battleships size
+     * and board - for vertical battleships
+     * Checks if there already is a battleship where we want to place one
+     * Returns if there is a battleship already there or not
+     */
     public static boolean isSubOverlapVer(int x, int y, int size, String[][] array){
         for(int i = 0 ; i < size ; i++){
             if(!(array[x+i][y].equals("X") || array[x+i][y].equals("—"))) return true;
@@ -33,6 +49,12 @@ public class Main {
         return false;
     }
 
+    /**
+     * Gets the first tile we want to put the battleship on, the battleships size
+     * and board - for horizontal battleships
+     * Checks if it would be adjacent to any other battleships
+     * And returns the result
+     */
     public static boolean isSubAdjHor (int x , int y, int size, String[][] array){
         for(int i = 0; i < size; ++i) {
             if (array[x][y + i].equals("X")) {
@@ -42,6 +64,12 @@ public class Main {
         return false;
     }
 
+    /**
+     * Gets the first tile we want to put the battleship on, the battleships size
+     * and board - for vertical battleships
+     * Checks if it would be adjacent to any other battleships
+     * And returns the result (opposite)
+     */
     public static boolean isSubAdjVer (int x, int y, int size, String[][] array){
         for(int i = 0; i < size; ++i) {
             if (array[x + i][y].equals("X")) {
@@ -51,27 +79,57 @@ public class Main {
         return true;
     }
 
+    /**
+     * Gets the first placement of a certain battleship we want to put in the board, its size
+     * and the line size
+     * Checks if the whole battleship will fit in the line - horizontal battleships
+     * Returns whether it fits or not
+     */
     public static boolean isSubInBoardHor(int y,int col,int size){
-        return !(y+size-1 >= col);
+        return (y+size-1 >= col);
     }
 
+    /**
+     * Gets the first placement of a certain battleship we want to put in the board, its size
+     * and the column size
+     * Checks if the whole battleship will fit in the column - vertical battleships
+     * Returns whether it fits or not
+     */
     public static boolean isSubInBoardVer(int x, int row, int size){
         return !(x+size-1 >= row);
     }
 
+    /**
+     * Gets info about a legal horizontal battleship, it's index in the state array
+     * and the board we want to put the battleship in
+     * Changes the designated tiles to a string with the battleships index according to the state array
+     * So that we know where it is in the board
+     */
     public static void putSubHor(int x, int y, int size,int sub, String[][] array){
         for (int  i = 0 ; i < size ; i++){
             array[x][y+i] = Integer.toString(sub);
         }
     }
 
+    /**
+     * Gets info about a legal vertical battleship, it's index in the state array
+     * and the board we want to put the battleship in
+     * Changes the designated tiles to a string with the battleships index according to the state array
+     * So that we know where it is in the board
+     */
     public static void putSubVer(int x, int y, int size,int sub, String[][] array){
         for (int  i = 0 ; i < size ; i++){
             array[x+i][y] = Integer.toString(sub);
         }
     }
 
-    public static void putXHor(int x, int y, int size,int row , int col, String[][] array){
+    /**
+     * Gets first tile where a legal battleship is put in the board, its size
+     * number of rows and columns in the board and the board we put said battleship in
+     * Changes all the tiles around the battleship to mark that it's not a legal tile to put the next battleship
+     * For horizontal battleships
+     */
+    public static void putXHor(int x, int y, int size, int row , int col, String[][] array){
         for(int i = -1; i <= size ; i++){
             for(int j = -1 ; j <= 1 ; j++ ){
                 if( (j+x >= 0) && (j+x <row) && (i+y >= 0) && (i+y <col)){
@@ -81,6 +139,12 @@ public class Main {
         }
     }
 
+    /**
+     * Gets first tile where a legal battleship is put in the board, its size
+     * number of rows and columns in the board and the board we put said battleship in
+     * Changes all the tiles around the battleship to mark that it's not a legal tile to put the next battleship
+     * For vertical battleships
+     */
     public static void putXVer(int x, int y, int size,int row , int col, String[][] array){
         for(int i = -1; i <= size ; i++){
             for(int j = -1 ; j <= 1 ; j++ ){
@@ -92,7 +156,6 @@ public class Main {
     }
 
     /**
-     *
      * input: the size of the board and a board
      * it fills the entire board with dashes
      * output: none
@@ -106,7 +169,6 @@ public class Main {
     }
 
     /**
-     *
      * input: gets a 1D array and a 2D array containing information on the battleships
      * fills the 1D array by size of battleship
      * output: none
@@ -122,7 +184,6 @@ public class Main {
     }
 
     /**
-     *
      * input: the size of the board, a board, how many battleships are there and of what kinds
      * chooses randomly where the PC shall place its battleships
      * output: none
@@ -137,7 +198,7 @@ public class Main {
                 orientation = rnd.nextInt(2);
 
                 if (orientation == 0){
-                    if(!isSubInBoardHor(y,col,pcBattleshipState[i])){
+                    if(isSubInBoardHor(y,col,pcBattleshipState[i])){
                         continue;
                     } else if (isSubOverlapHor(x, y, pcBattleshipState[i], pcBoard)) {
                         continue;
@@ -171,7 +232,6 @@ public class Main {
     }
 
     /**
-     *
      * input: a board
      * changes every dash on the array to an 'X'
      * output: none
@@ -188,7 +248,6 @@ public class Main {
     }
 
     /**
-     *
      * input: a 2D array and an array containing battleships data in a aXb format
      * extracts the data from the 1D array and puts it in the 2D array
      * output: none
@@ -205,8 +264,8 @@ public class Main {
             eachBattleshipData[i][1] = size;
         }
     }
+
     /**
-     *
      * input: a board
      * prints the board that was inserted into the function according to how a regular board is printed
      * output: none
@@ -287,7 +346,6 @@ public class Main {
     }
 
     /**
-     *
      * input: a board
      * prints the board that was inserted into the function according to how a guessing board is printed
      * output: none
@@ -364,7 +422,6 @@ public class Main {
     }
 
     /**
-     *
      * input: a point on the board and the board itself
      * checks if it's possible to attack the point on the board (excluding if it was attacked already)
      * output: T/F
@@ -374,7 +431,6 @@ public class Main {
     }
 
     /**
-     *
      * input: a point on the board and the board itself
      * checks if the point on the board was already attacked
      * output: T/F
@@ -419,7 +475,6 @@ public class Main {
     }
 
     /**
-     *
      * input: gets the point of attack, the board and the PC's battleships state
      * commences the attack on the PC by changing its board and its states
      * output: none
@@ -452,7 +507,6 @@ public class Main {
     }
 
     /**
-     *
      * input: gets the size of the board, the board , and the battleship data of the user
      * chooses random point to attack and calls the function to commence the actual attack
      * output: none
@@ -467,10 +521,11 @@ public class Main {
         }
         attackUser(x, y, userBoard, userBattleshipData);
     }
+
     /**
-    * input: gets the where the PC attacked, the board and the users battleship current state
-    * completes the attack function by changing the board of the user and the state of the one of the battleships if needed
-    * output: none
+     * input: gets the where the PC attacked, the board and the users battleship current state
+     * completes the attack function by changing the board of the user and the state of the one of the battleships if needed
+     * output: none
      */
     public static void attackUser(int x, int y, String[][] userBoard, int[] userBattleshipData){
 
@@ -504,6 +559,7 @@ public class Main {
             }
         }
     }
+
     /**
      * input: an array of containing how many pieces of the battleships are still intact
      * checks if the entire array contains only zeroes
@@ -518,6 +574,7 @@ public class Main {
         }
         return (r != 0);
     }
+
     /**
      * input: quantitySum, row, col, userBoard (2D array), userBattleshipState (1D array)
      * lets the user set up his board
@@ -551,7 +608,7 @@ public class Main {
                     continue;
                 }
                 if (orientation == 0){
-                    if(!isSubInBoardHor(y, col, userBattleshipState[i])){
+                    if(isSubInBoardHor(y, col, userBattleshipState[i])){
                         System.out.println("Battleship exceeds the boundaries of the board, try again!");
                         continue;
                     } else if (isSubOverlapHor(x, y, userBattleshipState[i], userBoard)) {
@@ -598,9 +655,10 @@ public class Main {
         }
 
     }
+
     /**
      * input: none
-     * acts as the base of the game and calls the relevant fucntions for the game to work
+     * acts as the base of the game and calls the relevant functions for the game to work
      * output: none
      */
     public static void battleshipGame() {

@@ -247,7 +247,11 @@ public class Main {
         for (int i = 0; i < to_print.length; i++) {
             for (int j = 0; j < to_print[0].length; j++) {
 
-                System.out.print(to_print[i][j] + " ");
+                if(j == 0){
+                    System.out.print(to_print[i][j]);
+                } else{
+                    System.out.print(" " + to_print[i][j]);
+                }
 
             }
             System.out.println();
@@ -314,7 +318,11 @@ public class Main {
         for (int i = 0; i < to_print.length; i++) {
             for (int j = 0; j < to_print[0].length; j++) {
 
-                System.out.print(to_print[i][j] + " ");
+                if(j == 0){
+                    System.out.print(to_print[i][j]);
+                } else{
+                    System.out.print(" " + to_print[i][j]);
+                }
 
             }
             System.out.println();
@@ -351,7 +359,7 @@ public class Main {
                     System.out.println("Illegal tile, try again!");
                 } else if (tileAttacked(attack_x, attack_y, pcBoard)) {
                     // if there is a 'M' or 'H' in the attacked tile
-                    System.out.print("Tile already attacked, try again!");
+                    System.out.println("Tile already attacked, try again!");
                 }
                 else {
                     break;
@@ -403,8 +411,9 @@ public class Main {
         System.out.println("The computer attacked (" + x + ", " + y + ")");
 
         if(userBoard[x][y].equals("—")){
-            System.out.println("That is  miss!");
+            System.out.println("That is a miss!");
             userBoard[x][y] = "M";
+            printGameBoard(userBoard);
         } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's a battleship!
 
             int index = getNumericValue(userBoard[x][y]);
@@ -421,7 +430,7 @@ public class Main {
                     }
                 }
                 System.out.println("That is a hit!");
-                System.out.println("Your battleship has been drowned, you have " + r + "more battleships!");
+                System.out.println("Your battleship has been drowned, you have left " + r + " more battleships!");
                 printGameBoard(userBoard);
             }else{
                 System.out.println("That is a hit!");

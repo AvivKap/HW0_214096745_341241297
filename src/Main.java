@@ -7,6 +7,10 @@ public class Main {
     public static Scanner scanner;
     public static Random rnd;
 
+    /**
+     * @param orientation
+     * Returns if the orientation received is legal or not
+     */
     public static boolean isOrienLegal(int orientation){
         return (orientation == 0 || orientation == 1);
     }

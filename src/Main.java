@@ -4,6 +4,16 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
+    public  static int getNumericValue(String str){
+        int temp = 0, i =0;
+        while(str.charAt(i) > '0' && str.charAt(i)<='9'){
+            temp *= 10;
+            temp += (int)str.charAt(i)-'0';
+            i++;
+        }
+        return temp;
+
+    }
     public static Scanner scanner;
     public static Random rnd;
 
@@ -15,27 +25,27 @@ public class Main {
         return (!((x >= row || x < 0) || (y >= col || y < 0)));
     }
 
-    public static boolean isSubOverlapHor(int x,int y, int size, char[][] array){
+    public static boolean isSubOverlapHor(int x,int y, int size, String[][] array){
         for(int i = 0 ; i < size ; i++){
-            if(array[x][y+i] != 'X' || array[x][y+i] == '—' ) return false;
+            if(array[x][y+i] != "X" || array[x][y+i] == "—" ) return false;
         }
         return true;
     }
 
-    public static boolean isSubOverlapVer(int x, int y, int size, char[][] array){
+    public static boolean isSubOverlapVer(int x, int y, int size, String[][] array){
         for(int i = 0 ; 0 < size ; i++){
-            if(array[x+i][y] != 'X' || array[x+i][y] != '—') return false;
+            if(array[x+i][y] != "X" || array[x+i][y] != "—") return false;
         }
         return true;
     }
 
-    public static boolean isSubAdjHor (int x , int y, int size, char[][] array){
-        if((array[x][y-1] == 'X')||(array[x][y+size] == 'X')) return true;
+    public static boolean isSubAdjHor (int x , int y, int size, String[][] array){
+        if((array[x][y-1] == "X")||(array[x][y+size] == "X")) return true;
         return false;
     }
 
-    public static boolean isSubAdjVer (int x, int y, int size, char[][] array){
-        if((array[x-1][y] == 'X') || (array[x+size][y] == 'X')) return false;
+    public static boolean isSubAdjVer (int x, int y, int size, String[][] array){
+        if((array[x-1][y] == "X") || (array[x+size][y] == "X")) return false;
         return true;
     }
 
@@ -48,42 +58,42 @@ public class Main {
 
     }
 
-    public static void putSubHor(int x, int y, int size,int sub, char[][] array){
+    public static void putSubHor(int x, int y, int size,int sub, String[][] array){
         for (int  i = 0 ; i < size ; i++){
-            array[x][y+i] = (char)(sub + '0');
+            array[x][y+i] = (String)(sub + "0");
         }
     }
 
-    public static void putSubVer(int x, int y, int size,int sub, char[][] array){
+    public static void putSubVer(int x, int y, int size,int sub, String[][] array){
         for (int  i = 0 ; i < size ; i++){
-            array[x+i][y] = (char)(sub + '0');
+            array[x+i][y] = (String)(sub + "0");
         }
     }
 
-    public static void putXHor(int x, int y, int size,int row , int col, char[][] array){
+    public static void putXHor(int x, int y, int size,int row , int col, String[][] array){
         for(int i = -1; i <= size ; i++){
             for(int j = -1 ; j <= 1 ; j++ ){
                 if( (j+x >= 0) && (j+x <row) && (i+y >= 0) && (i+y <col)){
-                    if(array[j+x][i+y] == '—') array[j+x][i+y] = 'X';
+                    if(array[j+x][i+y] == "—") array[j+x][i+y] = "X";
                 }
             }
         }
     }
 
-    public static void putXVer(int x, int y, int size,int row , int col, char[][] array){
+    public static void putXVer(int x, int y, int size,int row , int col, String[][] array){
         for(int i = -1; i <= size ; i++){
             for(int j = -1 ; j <= 1 ; j++ ){
                 if( (i+x >= 0) && (i+x <row) && (j+y >= 0) && (j+y <col)){
-                    if(array[i+x][j+y] == '—') array[i+x][j+y] = 'X';
+                    if(array[i+x][j+y] == "—") array[i+x][j+y] = "X";
                 }
             }
         }
     }
 
-    public static void dash2DArray(int row, int col, char[][] array){
+    public static void dash2DArray(int row, int col, String[][] array){
         for (int i = 0; i < row; i++){
             for (int j = 0; j < col; j++){
-                array[i][j] = '—';
+                array[i][j] = "—";
             }
         }
     }
@@ -98,7 +108,7 @@ public class Main {
         }
     }
 
-    public static void setBoardPC(int row, int col, int[] pcBattleshipState, char[][] pcBoard,int quantitySum){
+    public static void setBoardPC(int row, int col, int[] pcBattleshipState, String[][] pcBoard,int quantitySum){
         int i = 0, x, y ,orientation;
         while (i < quantitySum){
 
@@ -141,12 +151,12 @@ public class Main {
 
     }
 
-    public static void fromXtodash(char[][] board){
+    public static void fromXtodash(String[][] board){
 
         for ( int i = 0; i < board.length; i++){
             for ( int j = 0; j < board[0].length; j++){
 
-                if ( board[i][j] == 'X' ) { board[i][j] = '—';}
+                if ( board[i][j] == "X" ) { board[i][j] = "—";}
 
             }
         }
@@ -165,7 +175,7 @@ public class Main {
         }
     }
 
-    public static void printGameBoard(char[][] board){
+    public static void printGameBoard(String[][] board){
 
         System.out.println("Your current game board:");
 
@@ -213,11 +223,11 @@ public class Main {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
 
-                if(board[i][j] == 'M' || board[i][j] == '—'){
+                if(board[i][j] == "M" || board[i][j] == "—"){
                     to_print[i + 1][j + 1] = "—";
-                } else if (board[i][j] == 'H') {
+                } else if (board[i][j] == "H") {
                     to_print[i + 1][j + 1] = "X";
-                } else if (board[i][j] == 'X') {
+                } else if (board[i][j] == "X") {
                     to_print[i + 1][j + 1] = "—";
                 }    else to_print[i + 1][j + 1] = "#";
 
@@ -236,7 +246,7 @@ public class Main {
         System.out.println();
     }
 
-    public static void printGuessingBoard(char[][] board){
+    public static void printGuessingBoard(String[][] board){
 
         System.out.println("Your current guessing board:");
 
@@ -282,9 +292,9 @@ public class Main {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
 
-                if(board[i][j] == 'M'){
+                if(board[i][j] == "M"){
                     to_print[i + 1][j + 1] = "X";
-                } else if (board[i][j] == 'H') {
+                } else if (board[i][j] == "H") {
                     to_print[i + 1][j + 1] = "V";
                 } else to_print[i + 1][j + 1] = "—";
             }
@@ -303,15 +313,15 @@ public class Main {
         System.out.println();
     }
 
-    public static boolean ilegalAttack(int x, int y, char[][] board){
+    public static boolean ilegalAttack(int x, int y, String[][] board){
         return (x < 0 || y < 0 || x >= board.length || y >= board[0].length);
     }
 
-    public static boolean tileAttacked(int x, int y, char[][] board){
-        return(board[x][y] == 'M' || board[x][y] == 'H');
+    public static boolean tileAttacked(int x, int y, String[][] board){
+        return(board[x][y] == "M" || board[x][y] == "H");
     }
 
-    public static void attackFromUser(char[][] pcBoard, int[] pcBattleshipState){
+    public static void attackFromUser(String[][] pcBoard, int[] pcBattleshipState){
         // print user's guessing board
         printGuessingBoard(pcBoard);
         // get attack coordinates from user
@@ -345,15 +355,15 @@ public class Main {
 
     }
 
-    public static void attackPc(int x, int y, char[][] pcBoard, int[] pcBattleshipData){
-        if( pcBoard[x][y] == '—'){
+    public static void attackPc(int x, int y, String[][] pcBoard, int[] pcBattleshipData){
+        if( pcBoard[x][y] == "—"){
             System.out.print("That is a miss!");
         } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's a battleship!
-            int index = Character.getNumericValue(pcBoard[x][y]);
+            int index = getNumericValue(pcBoard[x][y]);
             // update the pc's array
             pcBattleshipData[index] -= 1;
             // update the pc's board
-            pcBoard[x][y] = 'H';
+            pcBoard[x][y] = "H";
             if(pcBattleshipData[index] == 0){
                 int r = 0;
                 // get how many battleships are left
@@ -371,7 +381,7 @@ public class Main {
         }
     }
 
-    public static void attackFromPc(int row, int col, char[][] userBoard, int[] userBattleshipData){
+    public static void attackFromPc(int row, int col, String[][] userBoard, int[] userBattleshipData){
 
         int x = rnd.nextInt(row);
         int y = rnd.nextInt(col);
@@ -382,19 +392,19 @@ public class Main {
         attackUser(x, y, userBoard, userBattleshipData);
     }
 
-    public static void attackUser(int x, int y, char[][] userBoard, int[] userBattleshipData){
+    public static void attackUser(int x, int y, String[][] userBoard, int[] userBattleshipData){
 
         System.out.println("The computer attacked (" + x + ", " + y + ")");
 
-        if(userBoard[x][y] == '—'){
+        if(userBoard[x][y] == "—"){
             System.out.println("That is  miss!");
         } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's a battleship!
 
-            int index = Character.getNumericValue(userBoard[x][y]);
+            int index = getNumericValue(userBoard[x][y]);
             // update the user's array
             userBattleshipData[index] -= 1;
             // update the user's board
-            userBoard[x][y] = 'H';
+            userBoard[x][y] = "H";
             if(userBattleshipData[index] == 0){
                 int r = 0;
                 // get how many battleships are left
@@ -429,7 +439,7 @@ public class Main {
         return (r != 0);
     }
 
-    public static void setBoardUser(int quantitySum, int row, int col, char[][] userBoard, int[] userBattleshipState){
+    public static void setBoardUser(int quantitySum, int row, int col, String[][] userBoard, int[] userBattleshipState){
         int x, y, orientation,  i = 0;
         String placement;
         String[] placementSplit;
@@ -518,8 +528,8 @@ public class Main {
         int col = Integer.parseInt(sizeOfBoardSplit[1]);
 
         // make 2 boards - initialized to '—' - one for user and one for pc
-        char[][] userBoard = new char[row][col];
-        char[][] pcBoard = new char[row][col];
+        String[][] userBoard = new String[row][col];
+        String[][] pcBoard = new String[row][col];
 
         dash2DArray(row, col, userBoard);
         dash2DArray(row, col, pcBoard);

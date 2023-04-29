@@ -12,12 +12,12 @@ public class Main {
     }
 
     public static boolean isTileInBoard(int row, int col, int x, int y){
-        return ((x >= row || x < 0) || (y >= col || y < 0));
+        return (!((x >= row || x < 0) || (y >= col || y < 0)));
     }
 
     public static boolean isSubOverlapHor(int x,int y, int size, char[][] array){
         for(int i = 0 ; i < size ; i++){
-            if(array[x][y+i] != 'X' || array[x][y+i] != '—' ) return false;
+            if(array[x][y+i] != 'X' || array[x][y+i] == '—' ) return false;
         }
         return true;
     }
@@ -30,16 +30,12 @@ public class Main {
     }
 
     public static boolean isSubAdjHor (int x , int y, int size, char[][] array){
-        for(int i = 0 ; i < size ; i++){
-            if(array[x][y+i] == 'X') return false;
-        }
-        return true;
+        if((array[x][y-1] == 'X')||(array[x][y+size] == 'X')) return true;
+        return false;
     }
 
     public static boolean isSubAdjVer (int x, int y, int size, char[][] array){
-        for(int i = 0 ; i < size ; i++){
-            if(array[x+i][y] == '—') return false;
-        }
+        if((array[x-1][y] == 'X') || (array[x+size][y] == 'X')) return false;
         return true;
     }
 
@@ -54,13 +50,13 @@ public class Main {
 
     public static void putSubHor(int x, int y, int size,int sub, char[][] array){
         for (int  i = 0 ; i < size ; i++){
-            array[x][y+i] = (char)sub;
+            array[x][y+i] = (char)(sub + '0');
         }
     }
 
     public static void putSubVer(int x, int y, int size,int sub, char[][] array){
         for (int  i = 0 ; i < size ; i++){
-            array[x+i][y] = (char)sub;
+            array[x+i][y] = (char)(sub + '0');
         }
     }
 
@@ -108,7 +104,7 @@ public class Main {
 
             while (true){
                 x = rnd.nextInt(row);
-                y =rnd.nextInt(col);
+                y = rnd.nextInt(col);
                 orientation = rnd.nextInt(2);
 
                 if (orientation == 0){
@@ -175,9 +171,10 @@ public class Main {
 
         int row = board.length;
         int col = board[0].length;
+        int print_row = row+1;
+        int print_col = col+1;
 
-        String[][] to_print = new String[row + 1][col + 1];
-        to_print[0][0] = "  ";
+        String[][] to_print = new String[print_row][print_col];
 
         // enumerate columns
         for (int i = 1; i < to_print[0].length; i++) {
@@ -187,6 +184,7 @@ public class Main {
         // enumerate rows - gotta be careful with the spacements!
         for (int i = 1; i < to_print.length; i++) {
             if (row >= 100) {
+                to_print[0][0] = "   ";
                 if (i < 10) {
                     to_print[i][0] = (" " + Integer.toString(i - 1));
                 } else if (i < 100) {
@@ -195,11 +193,15 @@ public class Main {
                     to_print[i][0] = Integer.toString(i - 1);
                 }
             } else if (row >= 10) {
+                to_print[0][0] = "  ";
                 if (i <= 10) {
                     to_print[i][0] = (" " + Integer.toString(i - 1));
                 } else {
                     to_print[i][0] = Integer.toString(i - 1);
                 }
+            }else{
+                to_print[0][0] = " ";
+                to_print[i][0] = Integer.toString(i - 1);
             }
         }
 
@@ -240,7 +242,6 @@ public class Main {
         int col = board[0].length;
 
         String[][] to_print = new String[row + 1][col + 1];
-        to_print[0][0] = "  ";
 
         // enumerate columns
         for (int i = 1; i < to_print[0].length; i++) {
@@ -250,6 +251,7 @@ public class Main {
         // enumerate rows - gotta be careful with the spacements!
         for (int i = 1; i < to_print.length; i++) {
             if (row >= 100) {
+                to_print[0][0] = "   ";
                 if (i < 10) {
                     to_print[i][0] = (" " + Integer.toString(i - 1));
                 } else if (i < 100) {
@@ -258,11 +260,15 @@ public class Main {
                     to_print[i][0] = Integer.toString(i - 1);
                 }
             } else if (row >= 10) {
+                to_print[0][0] = "  ";
                 if (i <= 10) {
                     to_print[i][0] = (" " + Integer.toString(i - 1));
                 } else {
                     to_print[i][0] = Integer.toString(i - 1);
                 }
+            } else{
+                to_print[0][0] = " ";
+                to_print[i][0] = Integer.toString(i-1);
             }
         }
 
@@ -435,7 +441,7 @@ public class Main {
             // a message to get input won't appear this time
             while (true){
                 placement = scanner.nextLine();
-                placementSplit = placement.split(",");
+                placementSplit = placement.split(", ");
                 x = Integer.parseInt(placementSplit[0]);
                 y = Integer.parseInt(placementSplit[1]);
                 orientation = Integer.parseInt(placementSplit[2]);
@@ -453,11 +459,11 @@ public class Main {
                     if(!isSubInBoardHor(y, col, userBattleshipState[i])){
                         System.out.println("Battleship exceeds the boundaries of the board, try again!");
                         continue;
-                    } else if (!isSubOverlapHor(x, y, userBattleshipState[i], userBoard)) {
+                    } else if (isSubOverlapHor(x, y, userBattleshipState[i], userBoard)) {
                         System.out.println("Battleship overlaps another battleship, try again!");
                         continue;
 
-                    } else if (!isSubAdjHor(x, y, userBattleshipState[i], userBoard)) {
+                    } else if (isSubAdjHor(x, y, userBattleshipState[i], userBoard)) {
                         System.out.println("Adjacent battleship detected, try again!");
                         continue;
                     }
@@ -496,14 +502,12 @@ public class Main {
 
     }
 
-
     public static void battleshipGame() {
 
         // get board size
         System.out.println("Enter the board size");
         String sizeOfBoard = scanner.nextLine();
-        // after getting from user the board size, we'll divide the string by the given separator "X"
-        // this way we'll get how many rows and columns our boards will have
+
         String[] sizeOfBoardSplit= sizeOfBoard.split("X");
         // in the array sizeOfBoardSplit, the number of rows and column will be defined as a string
         // so to get its value in the integer data type we'll use the function parseInt
@@ -546,7 +550,6 @@ public class Main {
 
           // set the user's board
         setBoardUser(quantitySum, row, col, userBoard, userBattleshipState);
-
           // randomly set the computer's battleships in its board
         setBoardPC(row, col, pcBattleshipState, pcBoard, quantitySum);
 
@@ -557,7 +560,8 @@ public class Main {
         // * GAME STARTS! *
           // "M" == miss; "H" == hit
 
-        // while there are battleships left for at least one of the players: the game keeps on going
+        // while there are battleships left for both of the players: the game keeps on going
+          // otherwise someone wins!
         while(haveBattleshipsLeft(userBattleshipState) && haveBattleshipsLeft(pcBattleshipState)){
 
             // user's attack
@@ -574,14 +578,6 @@ public class Main {
         }
 
     }
-
-
-        // how will we work with our boards?
-          //
-
-
-        // TODO: Add your code here (and add more methods).
-
 
     public static void main(String[] args) throws IOException {
         String path = args[0];

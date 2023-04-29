@@ -100,7 +100,7 @@ public class Main {
 
     public static void setBoardPC(int row, int col, int[] pcBattleshipState, char[][] pcBoard,int quantitySum){
         int i = 0, x, y ,orientation;
-        while (i< quantitySum){
+        while (i < quantitySum){
 
             while (true){
                 x = rnd.nextInt(row);
@@ -110,9 +110,9 @@ public class Main {
                 if (orientation == 0){
                     if(!isSubInBoardHor(y,col,pcBattleshipState[i])){
                         continue;
-                    } else if (!isSubOverlapHor(x, y, pcBattleshipState[i], pcBoard)) {
+                    } else if (isSubOverlapHor(x, y, pcBattleshipState[i], pcBoard)) {
                         continue;
-                    } else if (!isSubAdjHor(x, y , pcBattleshipState[i], pcBoard)) {
+                    } else if (isSubAdjHor(x, y , pcBattleshipState[i], pcBoard)) {
                         continue;
                     }
                 }
@@ -217,7 +217,9 @@ public class Main {
                     to_print[i + 1][j + 1] = "—";
                 } else if (board[i][j] == 'H') {
                     to_print[i + 1][j + 1] = "X";
-                } else to_print[i + 1][j + 1] = "#";
+                } else if (board[i][j] == 'X') {
+                    to_print[i + 1][j + 1] = "—";
+                }    else to_print[i + 1][j + 1] = "#";
 
             }
         }
@@ -315,7 +317,7 @@ public class Main {
         // get attack coordinates from user
         System.out.println("Enter a tile to attack");
         String attackCoordinates = scanner.nextLine();
-        String[] getCoordinates = attackCoordinates.split(",");
+        String[] getCoordinates = attackCoordinates.split(", ");
         int attack_x = Integer.parseInt(getCoordinates[0]);
         int attack_y = Integer.parseInt(getCoordinates[1]);
 
@@ -360,13 +362,11 @@ public class Main {
                         r += 1;
                     }
                 }
-                if(r==0){ // how exactly to do this?
-                    return;
-                } else{
-                    System.out.println("The computer's battleship has been drowned, " + r + "more battleships to go!");
-                }
+                System.out.println("That is a hit!");
+                System.out.println("The computer's battleship has been drowned, " + r + " more battleships to go!");
+
             }else{
-                System.out.print("That is a hit!");
+                System.out.println("That is a hit!");
             }
         }
     }
@@ -406,11 +406,12 @@ public class Main {
                 if(r==0){
                     return;
                 } else{
+                    System.out.println("That is a hit!");
                     System.out.println("Your battleship has been drowned, you have " + r + "more battleships!");
                     printGameBoard(userBoard);
                 }
             }else{
-                System.out.print("That is a hit!");
+                System.out.println("That is a hit!");
                 printGameBoard(userBoard);
             }
 
@@ -472,7 +473,7 @@ public class Main {
                     if(!isSubInBoardVer(x, row, userBattleshipState[i])){
                         System.out.println("Battleship exceeds the boundaries of the board, try again!");
                         continue;
-                    } else if (!isSubOverlapVer(x, y, userBattleshipState[i], userBoard)) {
+                    } else if (isSubOverlapVer(x, y, userBattleshipState[i], userBoard)) {
                         System.out.println("Battleship overlaps another battleship, try again!");
                         continue;
 
@@ -491,10 +492,12 @@ public class Main {
             if(orientation == 0){
                 putSubHor(x, y, userBattleshipState[i], i, userBoard);
                 putXHor(x, y, userBattleshipState[i], row, col, userBoard);
+                printGameBoard(userBoard);
             }
             else{
                 putSubVer(x, y, userBattleshipState[i], i, userBoard);
                 putXVer(x ,y ,userBattleshipState[i], row, col, userBoard);
+                printGameBoard(userBoard);
             }
             i++;
 
@@ -508,7 +511,7 @@ public class Main {
         System.out.println("Enter the board size");
         String sizeOfBoard = scanner.nextLine();
 
-        String[] sizeOfBoardSplit= sizeOfBoard.split("X");
+        String[] sizeOfBoardSplit = sizeOfBoard.split("X");
         // in the array sizeOfBoardSplit, the number of rows and column will be defined as a string
         // so to get its value in the integer data type we'll use the function parseInt
         int row = Integer.parseInt(sizeOfBoardSplit[0]);
@@ -533,8 +536,8 @@ public class Main {
         organizeBattleshipData(eachBattleshipData, battleshipsDataSplit);
 
         int quantitySum = 0;
-        for (int i = 0; i < eachBattleshipData.length; i++){
-             quantitySum += eachBattleshipData[i][0];
+        for (int i = 0; i < eachBattleshipData.length; i++) {
+            quantitySum += eachBattleshipData[i][0];
         }
 
         int[] userBattleshipState = new int[quantitySum];
@@ -548,35 +551,37 @@ public class Main {
 
         // "DESIGN" of each board - user and pc
 
-          // set the user's board
+        // set the user's board
         setBoardUser(quantitySum, row, col, userBoard, userBattleshipState);
-          // randomly set the computer's battleships in its board
+        // randomly set the computer's battleships in its board
         setBoardPC(row, col, pcBattleshipState, pcBoard, quantitySum);
 
-          // after the battleships have been set, we'll get rid of the "service 'X'" we used to make sure there wouldn't be any adjacent battleships
+        // after the battleships have been set, we'll get rid of the "service 'X'" we used to make sure there wouldn't be any adjacent battleships
         fromXtodash(userBoard);
         fromXtodash(pcBoard);
 
         // * GAME STARTS! *
-          // "M" == miss; "H" == hit
+        // "M" == miss; "H" == hit
 
         // while there are battleships left for both of the players: the game keeps on going
-          // otherwise someone wins!
-        while(haveBattleshipsLeft(userBattleshipState) && haveBattleshipsLeft(pcBattleshipState)){
+        // otherwise someone wins!
+        while (haveBattleshipsLeft(userBattleshipState) && haveBattleshipsLeft(pcBattleshipState)) {
 
             // user's attack
             attackFromUser(pcBoard, pcBattleshipState);
+            if (!haveBattleshipsLeft(pcBattleshipState)) {
+                System.out.println("You won the game!");
+                break;
+            }
 
-            //pc's attack
+                //pc's attack
             attackFromPc(row, col, userBoard, userBattleshipState);
+            if (!haveBattleshipsLeft(userBattleshipState)) {
+                System.out.println("You lost):");
+            }
+
 
         }
-        if(!haveBattleshipsLeft(userBattleshipState)){
-            System.out.println("You lost(:");
-        } else if(!haveBattleshipsLeft(pcBattleshipState)){
-            System.out.println("You won the game!");
-        }
-
     }
 
     public static void main(String[] args) throws IOException {

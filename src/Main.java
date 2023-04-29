@@ -306,20 +306,25 @@ public class Main {
     public static void attackPc(int x, int y, char[][] board, int[] pcBattleshipData){
         if( board[x][y] == '—'){
             System.out.print("That is a miss!");
-        } else{
+        } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's
             int index = Character.getNumericValue(board[x][y]);
             // update the pc's array
             pcBattleshipData[index] -= 1;
             // update the pc's board
             board[x][y] = 'H';
             if(pcBattleshipData[index] == 0){
-                int r = 0; // get how many battleships are left
+                int r = 0;
+                // get how many battleships are left
                 for(int i = 0; i < pcBattleshipData.length; i++){
                     if(pcBattleshipData[i] != 0){
                         r += 1;
                     }
                 }
-                System.out.println("The computer's battleship has been drowned, " + r + "more battleships to go!");
+                if(r==0){
+                    System.out.print("You won the game!");
+                } else{
+                    System.out.println("The computer's battleship has been drowned, " + r + "more battleships to go!");
+                }
             }else{
                 System.out.print("That is a hit!");
             }

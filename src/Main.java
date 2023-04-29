@@ -303,6 +303,40 @@ public class Main {
         return(board[x][y] == 'M' || board[x][y] == 'H');
     }
 
+    public static void attackFromUser(char[][] pcBoard, int[] pcBattleshipState){
+        // print user's guessing board
+        printGuessingBoard(pcBoard);
+        // get attack coordinates from user
+        System.out.println("Enter a tile to attack");
+        String attackCoordinates = scanner.nextLine();
+        String[] getCoordinates = attackCoordinates.split(",");
+        int attack_x = Integer.parseInt(getCoordinates[0]);
+        int attack_y = Integer.parseInt(getCoordinates[1]);
+
+        if(ilegalAttack(attack_x, attack_y, pcBoard) || tileAttacked(attack_x, attack_y, pcBoard)){
+
+            do{  // get new coordinate every time, until we get a legal one!
+                attackCoordinates = scanner.nextLine();
+                getCoordinates = attackCoordinates.split(",");
+                attack_x = Integer.parseInt(getCoordinates[0]);
+                attack_y = Integer.parseInt(getCoordinates[1]);
+
+                if (ilegalAttack(attack_x, attack_y, pcBoard)) {
+                    System.out.println("Illegal tile, try again!");
+                } else if (tileAttacked(attack_x, attack_y, pcBoard)) {
+                    // if there is a 'M' or 'H' in the attacked tile
+                    System.out.print("Tile already attacked, try again!");
+                }
+            } while (ilegalAttack(attack_x, attack_y, pcBoard) || tileAttacked(attack_x, attack_y, pcBoard));
+
+        } else{
+
+            attackPc(attack_x, attack_y, pcBoard, pcBattleshipState);
+
+        }
+
+    }
+
     public static void attackPc(int x, int y, char[][] pcBoard, int[] pcBattleshipData){
         if( pcBoard[x][y] == '—'){
             System.out.print("That is a miss!");
@@ -320,8 +354,8 @@ public class Main {
                         r += 1;
                     }
                 }
-                if(r==0){
-                    System.out.print("You won the game!");
+                if(r==0){ // how exactly to do this?
+                    return;
                 } else{
                     System.out.println("The computer's battleship has been drowned, " + r + "more battleships to go!");
                 }
@@ -329,6 +363,17 @@ public class Main {
                 System.out.print("That is a hit!");
             }
         }
+    }
+
+    public static void attackFromPc(int row, int col, char[][] userBoard, int[] userBattleshipData){
+
+        int x = rnd.nextInt(row);
+        int y = rnd.nextInt(col);
+        while(ilegalAttack(x, y, userBoard) || tileAttacked(x, y, userBoard)){
+            x = rnd.nextInt(row);
+            y = rnd.nextInt(col);
+        }
+        attackUser(x, y, userBoard, userBattleshipData);
     }
 
     public static void attackUser(int x, int y, char[][] userBoard, int[] userBattleshipData){
@@ -353,7 +398,7 @@ public class Main {
                     }
                 }
                 if(r==0){
-                    System.out.print("You lost ):");
+                    return;
                 } else{
                     System.out.println("Your battleship has been drowned, you have " + r + "more battleships!");
                     printGameBoard(userBoard);
@@ -365,7 +410,17 @@ public class Main {
 
         }
 
+    }
+
+    public static boolean haveBattleshipsLeft(int[] someBattleshipData){
+        int r = 0;
+        for ( int i = 0; i < someBattleshipData.length; i++){
+            if(someBattleshipData[i] != 0){
+                r += 1;
+            }
         }
+        return (r != 0);
+    }
 
     public static void battleshipGame() {
 
@@ -413,17 +468,18 @@ public class Main {
             // each array will represent the user's battleships state
             // from the smaller to the biggest battleship - each character is a battleship
 
-
         // "DESIGN" of each board - user and pc
           // getting the coordinations for each battleship
+
+        // set the user's board
+        //setBoardUser(quantitySum, row, col, userBoard, userBattleshipState);
+
         int x, y, orientation,  i = 0;
         String placement;
         String[] placementSplit;
         while (i < quantitySum){
 
             printGameBoard(userBoard);
-
-            //needs implementation printGameBoard(); -> after each legal battleship placed and before the first placement
 
             System.out.println("Enter location and orientation for battleship of size " + userBattleshipState[i]);
             // we'll check if the coordinations are legal, if not, the user will have to give new different ones
@@ -496,62 +552,27 @@ public class Main {
         fromXtodash(userBoard);
         fromXtodash(pcBoard);
 
-
         // * GAME STARTS! *
           // "M" == miss; "H" == hit
 
-        // user's attack
-          // print guessing user's guessing board
-        printGuessingBoard(pcBoard);
-          // get tile to attack from user
-        System.out.println("Enter a tile to attack");
-        String attackCoordinates = scanner.nextLine();
-        String[] getCoordinates = attackCoordinates.split(",");
-        int attack_x = Integer.parseInt(getCoordinates[0]);
-        int attack_y = Integer.parseInt(getCoordinates[1]);
+        // while there are battleships left for at least one of the players: the game keeps on going
+        while(haveBattleshipsLeft(userBattleshipState) && haveBattleshipsLeft(pcBattleshipState)){
 
+            // user's attack
+            attackFromUser(pcBoard, pcBattleshipState);
 
-        if(ilegalAttack(attack_x, attack_y, pcBoard) || tileAttacked(attack_x, attack_y, pcBoard)){
+            //pc's attack
+            attackFromPc(row, col, userBoard, userBattleshipState);
 
-            do{  // get new coordinate every time, until we get a legal one!
-                attackCoordinates = scanner.nextLine();
-                getCoordinates = attackCoordinates.split(",");
-                attack_x = Integer.parseInt(getCoordinates[0]);
-                attack_y = Integer.parseInt(getCoordinates[1]);
-
-                if (ilegalAttack(attack_x, attack_y, pcBoard)) {
-                    System.out.println("Illegal tile, try again!");
-                } else if (tileAttacked(attack_x, attack_y, pcBoard)) {
-                    // if there is a 'M' or 'H' in the attacked tile
-                    System.out.print("Tile already attacked, try again!");
-                }
-            } while (ilegalAttack(attack_x, attack_y, pcBoard) || tileAttacked(attack_x, attack_y, pcBoard));
-
-        } else{
-
-            attackPc(attack_x, attack_y, pcBoard, pcBattleshipState);
-
+        }
+        if(!haveBattleshipsLeft(userBattleshipState)){
+            System.out.println("You lost(:");
+        } else if(!haveBattleshipsLeft(pcBattleshipState)){
+            System.out.println("You won the game!");
         }
 
     }
 
-
-
-            // check if it is illegal (not inside the board) or if it has been attacked (is marked with a "M" or "H")
-            //  if it's legal, we'll print what the attack caused: miss, hit or drowning
-            // chang the board accordingly
-
-        // pc's attack
-          // the computer's attack will be random, if the computer attacks a tile that has been attacked, we'll just ask for another
-          // tile until we get a legal one
-            // print what tile was attacked by the computer, and what it caused: miss, hit or drowning
-            // change the board accordingly
-            // print our current board game
-
-        // AFTER EACH ATTACK - not only we'll edit the board of who was attacked
-          // before that, if it was a hit we'll firstly change the battleship's state in our array
-          // if it makes their state go to zero we had a drowning
-          // after each drowning we'll check is any of the players got all of their battleships drowned
 
         // how will we work with our boards?
           //

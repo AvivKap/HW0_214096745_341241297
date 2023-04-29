@@ -27,25 +27,33 @@ public class Main {
 
     public static boolean isSubOverlapHor(int x,int y, int size, String[][] array){
         for(int i = 0 ; i < size ; i++){
-            if(array[x][y+i] != "X" || array[x][y+i] == "—" ) return false;
+            if(array[x][y+i].equals("X") || array[x][y+i].equals("—") ) return false;
         }
         return true;
     }
 
     public static boolean isSubOverlapVer(int x, int y, int size, String[][] array){
-        for(int i = 0 ; 0 < size ; i++){
-            if(array[x+i][y] != "X" || array[x+i][y] != "—") return false;
+        for(int i = 0 ; i < size ; i++){
+            if(array[x+i][y].equals("X") || array[x+i][y].equals("—")) return false;
         }
         return true;
     }
 
     public static boolean isSubAdjHor (int x , int y, int size, String[][] array){
-        if((array[x][y-1] == "X")||(array[x][y+size] == "X")) return true;
+        for(int i = 0; i < size; ++i) {
+            if (array[x][y + i].equals("X")) {
+                return true;
+            }
+        }
         return false;
     }
 
     public static boolean isSubAdjVer (int x, int y, int size, String[][] array){
-        if((array[x-1][y] == "X") || (array[x+size][y] == "X")) return false;
+        for(int i = 0; i < size; ++i) {
+            if (array[x + i][y].equals("X")) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -55,18 +63,17 @@ public class Main {
 
     public static boolean isSubInBoardVer(int x, int row, int size){
         return !(x+size-1 >= row);
-
     }
 
     public static void putSubHor(int x, int y, int size,int sub, String[][] array){
         for (int  i = 0 ; i < size ; i++){
-            array[x][y+i] = (String)(sub + "0");
+            array[x][y+i] = Integer.toString(sub);
         }
     }
 
     public static void putSubVer(int x, int y, int size,int sub, String[][] array){
         for (int  i = 0 ; i < size ; i++){
-            array[x+i][y] = (String)(sub + "0");
+            array[x+i][y] = Integer.toString(sub);
         }
     }
 
@@ -74,7 +81,7 @@ public class Main {
         for(int i = -1; i <= size ; i++){
             for(int j = -1 ; j <= 1 ; j++ ){
                 if( (j+x >= 0) && (j+x <row) && (i+y >= 0) && (i+y <col)){
-                    if(array[j+x][i+y] == "—") array[j+x][i+y] = "X";
+                    if(array[j+x][i+y].equals("—")) array[j+x][i+y] = "X";
                 }
             }
         }
@@ -84,7 +91,7 @@ public class Main {
         for(int i = -1; i <= size ; i++){
             for(int j = -1 ; j <= 1 ; j++ ){
                 if( (i+x >= 0) && (i+x <row) && (j+y >= 0) && (j+y <col)){
-                    if(array[i+x][j+y] == "—") array[i+x][j+y] = "X";
+                    if(array[i+x][j+y].equals("—")) array[i+x][j+y] = "X";
                 }
             }
         }
@@ -129,7 +136,7 @@ public class Main {
                 else {
                     if(!isSubInBoardVer(x,row,pcBattleshipState[i])){
                         continue;
-                    } else if (!isSubOverlapVer(x, y, pcBattleshipState[i], pcBoard)) {
+                    } else if (isSubOverlapVer(x, y, pcBattleshipState[i], pcBoard)) {
                         continue;
                     } else if (!isSubAdjVer(x, y , pcBattleshipState[i], pcBoard)) {
                         continue;
@@ -155,9 +162,9 @@ public class Main {
 
         for ( int i = 0; i < board.length; i++){
             for ( int j = 0; j < board[0].length; j++){
-
-                if ( board[i][j] == "X" ) { board[i][j] = "—";}
-
+                if ( board[i][j].equals("X")){
+                    board[i][j] = "—";
+                }
             }
         }
     }
@@ -223,11 +230,11 @@ public class Main {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
 
-                if(board[i][j] == "M" || board[i][j] == "—"){
+                if(board[i][j].equals("M") || board[i][j].equals("—")){
                     to_print[i + 1][j + 1] = "—";
-                } else if (board[i][j] == "H") {
+                } else if (board[i][j].equals("H")) {
                     to_print[i + 1][j + 1] = "X";
-                } else if (board[i][j] == "X") {
+                } else if (board[i][j].equals("X")) {
                     to_print[i + 1][j + 1] = "—";
                 }    else to_print[i + 1][j + 1] = "#";
 
@@ -292,9 +299,9 @@ public class Main {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
 
-                if(board[i][j] == "M"){
+                if(board[i][j].equals("M")){
                     to_print[i + 1][j + 1] = "X";
-                } else if (board[i][j] == "H") {
+                } else if (board[i][j].equals("H")) {
                     to_print[i + 1][j + 1] = "V";
                 } else to_print[i + 1][j + 1] = "—";
             }
@@ -318,7 +325,7 @@ public class Main {
     }
 
     public static boolean tileAttacked(int x, int y, String[][] board){
-        return(board[x][y] == "M" || board[x][y] == "H");
+        return(board[x][y].equals("M") || board[x][y].equals("H"));
     }
 
     public static void attackFromUser(String[][] pcBoard, int[] pcBattleshipState){
@@ -335,7 +342,7 @@ public class Main {
 
             do{  // get new coordinate every time, until we get a legal one!
                 attackCoordinates = scanner.nextLine();
-                getCoordinates = attackCoordinates.split(",");
+                getCoordinates = attackCoordinates.split(", ");
                 attack_x = Integer.parseInt(getCoordinates[0]);
                 attack_y = Integer.parseInt(getCoordinates[1]);
 
@@ -356,7 +363,7 @@ public class Main {
     }
 
     public static void attackPc(int x, int y, String[][] pcBoard, int[] pcBattleshipData){
-        if( pcBoard[x][y] == "—"){
+        if( pcBoard[x][y].equals("—")){
             System.out.print("That is a miss!");
         } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's a battleship!
             int index = getNumericValue(pcBoard[x][y]);
@@ -396,7 +403,7 @@ public class Main {
 
         System.out.println("The computer attacked (" + x + ", " + y + ")");
 
-        if(userBoard[x][y] == "—"){
+        if(userBoard[x][y].equals("—")){
             System.out.println("That is  miss!");
         } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's a battleship!
 
@@ -413,20 +420,14 @@ public class Main {
                         r += 1;
                     }
                 }
-                if(r==0){
-                    return;
-                } else{
-                    System.out.println("That is a hit!");
-                    System.out.println("Your battleship has been drowned, you have " + r + "more battleships!");
-                    printGameBoard(userBoard);
-                }
+                System.out.println("That is a hit!");
+                System.out.println("Your battleship has been drowned, you have " + r + "more battleships!");
+                printGameBoard(userBoard);
             }else{
                 System.out.println("That is a hit!");
                 printGameBoard(userBoard);
             }
-
         }
-
     }
 
     public static boolean haveBattleshipsLeft(int[] someBattleshipData){

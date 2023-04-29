@@ -4,18 +4,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-    public  static int getNumericValue(String str){
-        int temp = 0;
-        for(int i =0; i < str.length(); i++ )
-            if(str.charAt(i) >= '0' && str.charAt(i)<='9'){
-                temp *= 10;
-                temp += (int)str.charAt(i)-'0';
-                i++;
-            } else {
-                return -1;
-            }
-        return temp;
-    }
     public static Scanner scanner;
     public static Random rnd;
 
@@ -416,7 +404,7 @@ public class Main {
             printGameBoard(userBoard);
         } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's a battleship!
 
-            int index = getNumericValue(userBoard[x][y]);
+                int index = Integer.parseInt(userBoard[x][y]);
             // update the user's array
             userBattleshipData[index] -= 1;
             // update the user's board

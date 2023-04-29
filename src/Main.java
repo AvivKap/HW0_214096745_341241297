@@ -344,8 +344,8 @@ public class Main {
 
                 attackCoordinates = scanner.nextLine();
                 getCoordinates = attackCoordinates.split(", ");
-                attack_x = getNumericValue(getCoordinates[0]);
-                attack_y = getNumericValue(getCoordinates[1]);
+                attack_x = Integer.parseInt(getCoordinates[0]);
+                attack_y = Integer.parseInt(getCoordinates[1]);
 
                 if (ilegalAttack(attack_x, attack_y, pcBoard)) {
                     System.out.println("Illegal tile, try again!");
@@ -365,7 +365,7 @@ public class Main {
             System.out.println("That is a miss!");
             pcBoard[x][y] = "M";
         } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's a battleship!
-            int index = getNumericValue(pcBoard[x][y]);
+            int index = Integer.parseInt(pcBoard[x][y]);
             // update the pc's array
             pcBattleshipData[index] -= 1;
             // update the pc's board

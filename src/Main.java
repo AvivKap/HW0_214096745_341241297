@@ -422,58 +422,7 @@ public class Main {
         return (r != 0);
     }
 
-    public static void battleshipGame() {
-
-        // get board size
-        System.out.println("Enter the board size");
-        String sizeOfBoard = scanner.nextLine();
-        // after getting from user the board size, we'll divide the string by the given separator "X"
-        // this way we'll get how many rows and columns our boards will have
-        String[] sizeOfBoardSplit= sizeOfBoard.split("X");
-        // in the array sizeOfBoardSplit, the number of rows and column will be defined as a string
-        // so to get its value in the integer data type we'll use the function parseInt
-        int row = Integer.parseInt(sizeOfBoardSplit[0]);
-        int col = Integer.parseInt(sizeOfBoardSplit[1]);
-
-        // make 2 boards - initialized to '—' - one for user and one for pc
-        char[][] userBoard = new char[row][col];
-        char[][] pcBoard = new char[row][col];
-
-        dash2DArray(row, col, userBoard);
-        dash2DArray(row, col, pcBoard);
-
-
-        // get battleship sizes + numbers of each battleship
-        System.out.println("Enter the battleships sizes");
-        String battleshipsData = scanner.nextLine();
-        // we'll create an array in which each of the objects in it will represent the quantity of a certain
-        // size of battleship, as described on the information about the game
-        String[] battleshipsDataSplit = battleshipsData.split(" ");
-
-        int[][] eachBattleshipData = new int[battleshipsDataSplit.length][2];
-
-        organizeBattleshipData(eachBattleshipData, battleshipsDataSplit);
-
-        int quantitySum = 0;
-        for (int i = 0; i < eachBattleshipData.length; i++){
-             quantitySum += eachBattleshipData[i][0];
-        }
-
-        int[] userBattleshipState = new int[quantitySum];
-        int[] pcBattleshipState = new int[quantitySum];
-
-        initializeBattleshipState(userBattleshipState, eachBattleshipData);
-        initializeBattleshipState(pcBattleshipState, eachBattleshipData);
-          // create 2 arrays, for each one of the players
-            // each array will represent the user's battleships state
-            // from the smaller to the biggest battleship - each character is a battleship
-
-        // "DESIGN" of each board - user and pc
-          // getting the coordinations for each battleship
-
-        // set the user's board
-        //setBoardUser(quantitySum, row, col, userBoard, userBattleshipState);
-
+    public static void setBoardUser(int quantitySum, int row, int col, char[][] userBoard, int[] userBattleshipState){
         int x, y, orientation,  i = 0;
         String placement;
         String[] placementSplit;
@@ -545,10 +494,63 @@ public class Main {
 
         }
 
-        // randomly set the computer's battleships in its board
+    }
+
+
+    public static void battleshipGame() {
+
+        // get board size
+        System.out.println("Enter the board size");
+        String sizeOfBoard = scanner.nextLine();
+        // after getting from user the board size, we'll divide the string by the given separator "X"
+        // this way we'll get how many rows and columns our boards will have
+        String[] sizeOfBoardSplit= sizeOfBoard.split("X");
+        // in the array sizeOfBoardSplit, the number of rows and column will be defined as a string
+        // so to get its value in the integer data type we'll use the function parseInt
+        int row = Integer.parseInt(sizeOfBoardSplit[0]);
+        int col = Integer.parseInt(sizeOfBoardSplit[1]);
+
+        // make 2 boards - initialized to '—' - one for user and one for pc
+        char[][] userBoard = new char[row][col];
+        char[][] pcBoard = new char[row][col];
+
+        dash2DArray(row, col, userBoard);
+        dash2DArray(row, col, pcBoard);
+
+        // get battleship sizes + numbers of each battleship
+        System.out.println("Enter the battleships sizes");
+        String battleshipsData = scanner.nextLine();
+        // we'll create an array in which each of the objects in it will represent the quantity of a certain
+        // size of battleship, as described on the information about the game
+        String[] battleshipsDataSplit = battleshipsData.split(" ");
+
+        int[][] eachBattleshipData = new int[battleshipsDataSplit.length][2];
+
+        organizeBattleshipData(eachBattleshipData, battleshipsDataSplit);
+
+        int quantitySum = 0;
+        for (int i = 0; i < eachBattleshipData.length; i++){
+             quantitySum += eachBattleshipData[i][0];
+        }
+
+        int[] userBattleshipState = new int[quantitySum];
+        int[] pcBattleshipState = new int[quantitySum];
+
+        //create 2 arrays, for each one of the players! each array represents their battleships states
+        // each cell represents how many "parts" are left from each battleship
+        initializeBattleshipState(userBattleshipState, eachBattleshipData);
+        initializeBattleshipState(pcBattleshipState, eachBattleshipData);
+
+
+        // "DESIGN" of each board - user and pc
+
+          // set the user's board
+        setBoardUser(quantitySum, row, col, userBoard, userBattleshipState);
+
+          // randomly set the computer's battleships in its board
         setBoardPC(row, col, pcBattleshipState, pcBoard, quantitySum);
 
-        // after the battleships have been set, we'll get rid of the "service "X"" we used to make sure there wouldn't be any adjacent battleships
+          // after the battleships have been set, we'll get rid of the "service 'X'" we used to make sure there wouldn't be any adjacent battleships
         fromXtodash(userBoard);
         fromXtodash(pcBoard);
 

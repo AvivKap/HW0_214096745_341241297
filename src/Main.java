@@ -303,15 +303,15 @@ public class Main {
         return(board[x][y] == 'M' || board[x][y] == 'H');
     }
 
-    public static void attackPc(int x, int y, char[][] board, int[] pcBattleshipData){
-        if( board[x][y] == '—'){
+    public static void attackPc(int x, int y, char[][] pcBoard, int[] pcBattleshipData){
+        if( pcBoard[x][y] == '—'){
             System.out.print("That is a miss!");
-        } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's
-            int index = Character.getNumericValue(board[x][y]);
+        } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's a battleship!
+            int index = Character.getNumericValue(pcBoard[x][y]);
             // update the pc's array
             pcBattleshipData[index] -= 1;
             // update the pc's board
-            board[x][y] = 'H';
+            pcBoard[x][y] = 'H';
             if(pcBattleshipData[index] == 0){
                 int r = 0;
                 // get how many battleships are left
@@ -330,6 +330,42 @@ public class Main {
             }
         }
     }
+
+    public static void attackUser(int x, int y, char[][] userBoard, int[] userBattleshipData){
+
+        System.out.println("The computer attacked (" + x + ", " + y + ")");
+
+        if(userBoard[x][y] == '—'){
+            System.out.println("That is  miss!");
+        } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's a battleship!
+
+            int index = Character.getNumericValue(userBoard[x][y]);
+            // update the user's array
+            userBattleshipData[index] -= 1;
+            // update the user's board
+            userBoard[x][y] = 'H';
+            if(userBattleshipData[index] == 0){
+                int r = 0;
+                // get how many battleships are left
+                for(int i = 0; i < userBattleshipData.length; i++){
+                    if(userBattleshipData[i] != 0){
+                        r += 1;
+                    }
+                }
+                if(r==0){
+                    System.out.print("You lost ):");
+                } else{
+                    System.out.println("Your battleship has been drowned, you have " + r + "more battleships!");
+                    printGameBoard(userBoard);
+                }
+            }else{
+                System.out.print("That is a hit!");
+                printGameBoard(userBoard);
+            }
+
+        }
+
+        }
 
     public static void battleshipGame() {
 

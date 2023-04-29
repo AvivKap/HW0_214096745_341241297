@@ -29,16 +29,16 @@ public class Main {
 
     public static boolean isSubOverlapHor(int x,int y, int size, String[][] array){
         for(int i = 0 ; i < size ; i++){
-            if(array[x][y+i].equals("X") || array[x][y+i].equals("—") ) return false;
+            if(!(array[x][y+i].equals("X") || array[x][y+i].equals("—"))) return true;
         }
-        return true;
+        return false;
     }
 
     public static boolean isSubOverlapVer(int x, int y, int size, String[][] array){
         for(int i = 0 ; i < size ; i++){
-            if(array[x+i][y].equals("X") || array[x+i][y].equals("—")) return false;
+            if(!(array[x+i][y].equals("X") || array[x+i][y].equals("—"))) return true;
         }
-        return true;
+        return false;
     }
 
     public static boolean isSubAdjHor (int x , int y, int size, String[][] array){
@@ -233,11 +233,11 @@ public class Main {
             for (int j = 0; j < col; j++) {
 
                 if(board[i][j].equals("M") || board[i][j].equals("—")){
-                    to_print[i + 1][j + 1] = "—";
+                    to_print[i + 1][j + 1] = "–";
                 } else if (board[i][j].equals("H")) {
                     to_print[i + 1][j + 1] = "X";
                 } else if (board[i][j].equals("X")) {
-                    to_print[i + 1][j + 1] = "—";
+                    to_print[i + 1][j + 1] = "–";
                 }    else to_print[i + 1][j + 1] = "#";
 
             }
@@ -309,7 +309,7 @@ public class Main {
                     to_print[i + 1][j + 1] = "X";
                 } else if (board[i][j].equals("H")) {
                     to_print[i + 1][j + 1] = "V";
-                } else to_print[i + 1][j + 1] = "—";
+                } else to_print[i + 1][j + 1] = "–";
             }
         }
 
@@ -453,9 +453,9 @@ public class Main {
         int x, y, orientation,  i = 0;
         String placement;
         String[] placementSplit;
-        while (i < quantitySum){
+        printGameBoard(userBoard);
 
-            printGameBoard(userBoard);
+        while (i < quantitySum){
 
             System.out.println("Enter location and orientation for battleship of size " + userBattleshipState[i]);
             // we'll check if the coordinations are legal, if not, the user will have to give new different ones
@@ -597,7 +597,7 @@ public class Main {
                 //pc's attack
             attackFromPc(row, col, userBoard, userBattleshipState);
             if (!haveBattleshipsLeft(userBattleshipState)) {
-                System.out.println("You lost):");
+                System.out.println("You lost ):");
             }
 
 

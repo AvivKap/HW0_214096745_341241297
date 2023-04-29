@@ -91,6 +91,12 @@ public class Main {
         }
     }
 
+    /**
+     *
+     * input: the size of the board and a board
+     * it fills the entire board with dashes
+     * output: none
+     */
     public static void dash2DArray(int row, int col, String[][] array){
         for (int i = 0; i < row; i++){
             for (int j = 0; j < col; j++){
@@ -99,6 +105,12 @@ public class Main {
         }
     }
 
+    /**
+     *
+     * input: gets a 1D array and a 2D array containing information on the battleships
+     * fills the 1D array by size of battleship
+     * output: none
+     */
     public static void initializeBattleshipState(int[] init, int[][] data){
         int index = 0;
         for ( int i = 0; i < data.length; i++){
@@ -109,6 +121,12 @@ public class Main {
         }
     }
 
+    /**
+     *
+     * input: the size of the board, a board, how many battleships are there and of what kinds
+     * chooses randomly where the PC shall place its battleships
+     * output: none
+     */
     public static void setBoardPC(int row, int col, int[] pcBattleshipState, String[][] pcBoard,int quantitySum){
         int i = 0, x, y ,orientation;
         while (i < quantitySum){
@@ -152,6 +170,12 @@ public class Main {
 
     }
 
+    /**
+     *
+     * input: a board
+     * changes every dash on the array to an 'X'
+     * output: none
+     */
     public static void fromXtodash(String[][] board){
 
         for ( int i = 0; i < board.length; i++){
@@ -163,6 +187,12 @@ public class Main {
         }
     }
 
+    /**
+     *
+     * input: a 2D array and an array containing battleships data in a aXb format
+     * extracts the data from the 1D array and puts it in the 2D array
+     * output: none
+     */
     public static void organizeBattleshipData(int[][] eachBattleshipData, String[] battleshipsDataSplit ){
         for (int i = 0; i < battleshipsDataSplit.length; i++){
 
@@ -175,7 +205,12 @@ public class Main {
             eachBattleshipData[i][1] = size;
         }
     }
-
+    /**
+     *
+     * input: a board
+     * prints the board that was inserted into the function according to how a regular board is printed
+     * output: none
+     */
     public static void printGameBoard(String[][] board){
 
         System.out.println("Your current game board:");
@@ -251,6 +286,12 @@ public class Main {
         System.out.println();
     }
 
+    /**
+     *
+     * input: a board
+     * prints the board that was inserted into the function according to how a guessing board is printed
+     * output: none
+     */
     public static void printGuessingBoard(String[][] board){
 
         System.out.println("Your current guessing board:");
@@ -322,14 +363,31 @@ public class Main {
         System.out.println();
     }
 
+    /**
+     *
+     * input: a point on the board and the board itself
+     * checks if it's possible to attack the point on the board (excluding if it was attacked already)
+     * output: T/F
+     */
     public static boolean ilegalAttack(int x, int y, String[][] board){
         return (x < 0 || y < 0 || x >= board.length || y >= board[0].length);
     }
 
+    /**
+     *
+     * input: a point on the board and the board itself
+     * checks if the point on the board was already attacked
+     * output: T/F
+     */
     public static boolean tileAttacked(int x, int y, String[][] board){
         return(board[x][y].equals("M") || board[x][y].equals("H"));
     }
 
+    /**
+     * gets the PC's board and its battleship states
+     * lets the user choose where to attack and calls attackPc()
+     * output: none
+     */
     public static void attackFromUser(String[][] pcBoard, int[] pcBattleshipState){
         // print user's guessing board
         printGuessingBoard(pcBoard);
@@ -360,6 +418,12 @@ public class Main {
             attackPc(attack_x, attack_y, pcBoard, pcBattleshipState);
     }
 
+    /**
+     *
+     * input: gets the point of attack, the board and the PC's battleships state
+     * commences the attack on the PC by changing its board and its states
+     * output: none
+     */
     public static void attackPc(int x, int y, String[][] pcBoard, int[] pcBattleshipData){
         if( pcBoard[x][y].equals("—")){
             System.out.println("That is a miss!");
@@ -387,6 +451,12 @@ public class Main {
         }
     }
 
+    /**
+     *
+     * input: gets the size of the board, the board , and the battleship data of the user
+     * chooses random point to attack and calls the function to commence the actual attack
+     * output: none
+     */
     public static void attackFromPc(int row, int col, String[][] userBoard, int[] userBattleshipData){
 
         int x = rnd.nextInt(row);
@@ -397,7 +467,11 @@ public class Main {
         }
         attackUser(x, y, userBoard, userBattleshipData);
     }
-
+    /**
+    * input: gets the where the PC attacked, the board and the users battleship current state
+    * completes the attack function by changing the board of the user and the state of the one of the battleships if needed
+    * output: none
+     */
     public static void attackUser(int x, int y, String[][] userBoard, int[] userBattleshipData){
 
         System.out.println("The computer attacked (" + x + ", " + y + ")");
@@ -430,7 +504,11 @@ public class Main {
             }
         }
     }
-
+    /**
+     * input: an array of containing how many pieces of the battleships are still intact
+     * checks if the entire array contains only zeroes
+     * output: T/F
+     */
     public static boolean haveBattleshipsLeft(int[] someBattleshipData){
         int r = 0;
         for ( int i = 0; i < someBattleshipData.length; i++){
@@ -440,7 +518,11 @@ public class Main {
         }
         return (r != 0);
     }
-
+    /**
+     * input: quantitySum, row, col, userBoard (2D array), userBattleshipState (1D array)
+     * lets the user set up his board
+     * output: none
+     */
     public static void setBoardUser(int quantitySum, int row, int col, String[][] userBoard, int[] userBattleshipState){
         int x, y, orientation,  i = 0;
         String placement;
@@ -516,7 +598,11 @@ public class Main {
         }
 
     }
-
+    /**
+     * input: none
+     * acts as the base of the game and calls the relevant fucntions for the game to work
+     * output: none
+     */
     public static void battleshipGame() {
 
         // get board size

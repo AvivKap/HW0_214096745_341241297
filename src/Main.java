@@ -5,11 +5,15 @@ import java.util.Scanner;
 
 public class Main {
     public  static int getNumericValue(String str){
-        int temp = 0, i =0;
-        while(str.charAt(i) > '0' && str.charAt(i)<='9'){
+        int temp = 0;
+        for(int i =0; i < str.length(); i++ )
+        if(str.charAt(i) > '0' && str.charAt(i)<='9'){
             temp *= 10;
             temp += (int)str.charAt(i)-'0';
             i++;
+        }
+        else {
+            return -1;
         }
         return temp;
 
@@ -335,16 +339,16 @@ public class Main {
         System.out.println("Enter a tile to attack");
         String attackCoordinates = scanner.nextLine();
         String[] getCoordinates = attackCoordinates.split(", ");
-        int attack_x = Integer.parseInt(getCoordinates[0]);
-        int attack_y = Integer.parseInt(getCoordinates[1]);
+        int attack_x = getNumericValue(getCoordinates[0]);
+        int attack_y = getNumericValue(getCoordinates[1]);
 
         if(ilegalAttack(attack_x, attack_y, pcBoard) || tileAttacked(attack_x, attack_y, pcBoard)){
 
             do{  // get new coordinate every time, until we get a legal one!
                 attackCoordinates = scanner.nextLine();
                 getCoordinates = attackCoordinates.split(", ");
-                attack_x = Integer.parseInt(getCoordinates[0]);
-                attack_y = Integer.parseInt(getCoordinates[1]);
+                attack_x = getNumericValue(getCoordinates[0]);
+                attack_y = getNumericValue(getCoordinates[1]);
 
                 if (ilegalAttack(attack_x, attack_y, pcBoard)) {
                     System.out.println("Illegal tile, try again!");
@@ -367,6 +371,7 @@ public class Main {
             System.out.print("That is a miss!");
         } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's a battleship!
             int index = getNumericValue(pcBoard[x][y]);
+
             // update the pc's array
             pcBattleshipData[index] -= 1;
             // update the pc's board
@@ -408,6 +413,7 @@ public class Main {
         } else{ // the cell won't be 'M' or 'H' because it passed the validity check already, so it's a battleship!
 
             int index = getNumericValue(userBoard[x][y]);
+
             // update the user's array
             userBattleshipData[index] -= 1;
             // update the user's board

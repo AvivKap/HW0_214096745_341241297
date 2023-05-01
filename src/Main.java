@@ -278,7 +278,6 @@ public class Main {
         int col = board[0].length;
 
         String[][] to_print = new String[row + 1][col + 1];
-        to_print[0][0] = "  ";
 
         // enumerate columns
         for (int j = 1; j < to_print[0].length; j++) {
@@ -293,6 +292,10 @@ public class Main {
         for (int k = 0; k < row + 1; k++){
             to_print[k][0] = " ";
             to_print[k][0] = to_print[k][0].replace(" ", "");
+        }
+
+        for (int p = 0; p < char_in_last_row; p++){
+            to_print[0][0] += " ";
         }
 
         // enumerate rows - will work with any board size!
@@ -355,7 +358,6 @@ public class Main {
         int col = board[0].length;
 
         String[][] to_print = new String[row + 1][col + 1];
-        to_print[0][0] = "  ";
 
         // enumerate columns
         for (int j = 1; j < to_print[0].length; j++) {
@@ -370,6 +372,10 @@ public class Main {
         for (int k = 0; k < row + 1; k++){
             to_print[k][0] = " ";
             to_print[k][0] = to_print[k][0].replace(" ", "");
+        }
+
+        for (int p = 0; p < char_in_last_row; p++){
+            to_print[0][0] += " ";
         }
 
         // enumerate rows - will work with any board size!

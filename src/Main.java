@@ -276,38 +276,35 @@ public class Main {
 
         int row = board.length;
         int col = board[0].length;
-        int print_row = row+1;
-        int print_col = col+1;
 
-        String[][] to_print = new String[print_row][print_col];
+        String[][] to_print = new String[row + 1][col + 1];
+        to_print[0][0] = "  ";
 
         // enumerate columns
-        for (int i = 1; i < to_print[0].length; i++) {
-            to_print[0][i] = Integer.toString(i - 1);
+        for (int j = 1; j < to_print[0].length; j++) {
+            to_print[0][j] = Integer.toString(j-1);
         }
 
-        // enumerate rows - gotta be careful with the spacements!
-        for (int i = 1; i < to_print.length; i++) {
-            if (row >= 100) {
-                to_print[0][0] = "   ";
-                if (i < 10) {
-                    to_print[i][0] = (" " + Integer.toString(i - 1));
-                } else if (i < 100) {
-                    to_print[i][0] = ("  " + Integer.toString(i - 1));
-                } else {
-                    to_print[i][0] = Integer.toString(i - 1);
-                }
-            } else if (row >= 10) {
-                to_print[0][0] = "  ";
-                if (i <= 10) {
-                    to_print[i][0] = (" " + Integer.toString(i - 1));
-                } else {
-                    to_print[i][0] = Integer.toString(i - 1);
-                }
-            }else{
-                to_print[0][0] = " ";
-                to_print[i][0] = Integer.toString(i - 1);
+        // get how many characters are in the last rows number
+        String last_row = Integer.toString(row-1);
+        int char_in_last_row = last_row.length();
+
+        // make all first cells of each line empty and not null
+        for (int k = 0; k < row + 1; k++){
+            to_print[k][0] = " ";
+            to_print[k][0] = to_print[k][0].replace(" ", "");
+        }
+
+        // enumerate rows - will work with any board size!
+        for (int i = 1; i < row + 1; i++){
+
+            String what_row = Integer.toString(i-1);
+            int char_in_what_row = what_row.length();
+            int spaces_needed = (char_in_last_row - char_in_what_row);
+            for (int k = 0; k < spaces_needed; k++){
+                to_print[i][0] += " ";
             }
+            to_print[i][0] += Integer.toString(i-1);
         }
 
         // pass all the info from char to String in the new board - ready to print
@@ -358,34 +355,33 @@ public class Main {
         int col = board[0].length;
 
         String[][] to_print = new String[row + 1][col + 1];
+        to_print[0][0] = "  ";
 
         // enumerate columns
-        for (int i = 1; i < to_print[0].length; i++) {
-            to_print[0][i] = Integer.toString(i - 1);
+        for (int j = 1; j < to_print[0].length; j++) {
+            to_print[0][j] = Integer.toString(j-1);
         }
 
-        // enumerate rows - gotta be careful with the spacements!
-        for (int i = 1; i < to_print.length; i++) {
-            if (row >= 100) {
-                to_print[0][0] = "   ";
-                if (i < 10) {
-                    to_print[i][0] = (" " + Integer.toString(i - 1));
-                } else if (i < 100) {
-                    to_print[i][0] = ("  " + Integer.toString(i - 1));
-                } else {
-                    to_print[i][0] = Integer.toString(i - 1);
-                }
-            } else if (row >= 10) {
-                to_print[0][0] = "  ";
-                if (i <= 10) {
-                    to_print[i][0] = (" " + Integer.toString(i - 1));
-                } else {
-                    to_print[i][0] = Integer.toString(i - 1);
-                }
-            } else{
-                to_print[0][0] = " ";
-                to_print[i][0] = Integer.toString(i-1);
+        // get how many characters are in the last rows number
+        String last_row = Integer.toString(row-1);
+        int char_in_last_row = last_row.length();
+
+        // make all first cells of each line empty and not null
+        for (int k = 0; k < row + 1; k++){
+            to_print[k][0] = " ";
+            to_print[k][0] = to_print[k][0].replace(" ", "");
+        }
+
+        // enumerate rows - will work with any board size!
+        for (int i = 1; i < row + 1; i++){
+
+            String what_row = Integer.toString(i-1);
+            int char_in_what_row = what_row.length();
+            int spaces_needed = (char_in_last_row - char_in_what_row);
+            for (int k = 0; k < spaces_needed; k++){
+                to_print[i][0] += " ";
             }
+            to_print[i][0] += Integer.toString(i-1);
         }
 
         // pass all the info from char to String in the new board - ready to print

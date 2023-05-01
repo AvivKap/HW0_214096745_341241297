@@ -73,10 +73,10 @@ public class Main {
     public static boolean isSubAdjVer (int x, int y, int size, String[][] array){
         for(int i = 0; i < size; ++i) {
             if (array[x + i][y].equals("X")) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -96,7 +96,7 @@ public class Main {
      * Returns whether it fits or not
      */
     public static boolean isSubInBoardVer(int x, int row, int size){
-        return !(x+size-1 >= row);
+        return (x+size-1 >= row);
     }
 
     /**
@@ -207,11 +207,11 @@ public class Main {
                     }
                 }
                 else {
-                    if(!isSubInBoardVer(x,row,pcBattleshipState[i])){
+                    if(isSubInBoardVer(x,row,pcBattleshipState[i])){
                         continue;
                     } else if (isSubOverlapVer(x, y, pcBattleshipState[i], pcBoard)) {
                         continue;
-                    } else if (!isSubAdjVer(x, y , pcBattleshipState[i], pcBoard)) {
+                    } else if (isSubAdjVer(x, y , pcBattleshipState[i], pcBoard)) {
                         continue;
                     }
                 }
@@ -623,14 +623,14 @@ public class Main {
                     }
                 }
                 else {
-                    if(!isSubInBoardVer(x, row, userBattleshipState[i])){
+                    if(isSubInBoardVer(x, row, userBattleshipState[i])){
                         System.out.println("Battleship exceeds the boundaries of the board, try again!");
                         continue;
                     } else if (isSubOverlapVer(x, y, userBattleshipState[i], userBoard)) {
                         System.out.println("Battleship overlaps another battleship, try again!");
                         continue;
 
-                    } else if (!isSubAdjVer(x, y, userBattleshipState[i], userBoard)) {
+                    } else if (isSubAdjVer(x, y, userBattleshipState[i], userBoard)) {
                         System.out.println("Adjacent battleship detected, try again!");
                         continue;
                     }
